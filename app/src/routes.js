@@ -24,7 +24,7 @@
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'templates/_common/home.view.html'
+                templateUrl: 'templates/common/home.view.html'
             })
             .state('camera', {
                 url: '/camera',

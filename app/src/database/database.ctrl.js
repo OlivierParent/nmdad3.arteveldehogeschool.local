@@ -12,43 +12,47 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     DatabaseCtrl.$inject = [
         // Angular
-        // '$log',
+        '$log',
         // ngCordova
-        // '$cordovaSQLite'
+        '$cordovaSQLite'
     ];
 
     function DatabaseCtrl(
         // Angular
-        // $log,
+        $log,
         // ngCordova
-        // $cordovaSQLite
+        $cordovaSQLite
     ) {
-        // // Database
-        // var db = $cordovaSQLite.openDB({ name: "nmdad3.db" });
+        // Database
+        var db = $cordovaSQLite.openDB({ name: "nmdad3.db" });
+        // https://blog.nraboy.com/2014/11/use-sqlite-instead-local-storage-ionic-framework/
         
-        // // ViewModel
-        // // =========
-        // var vm = this;
+        
+        // ViewModel
+        // =========
+        var vm = this;
 
-        // vm.title = 'Database Demo';
+        vm.title = 'Database Demo';
         
-        // // Functions
-        // // =========
-        // function testDatabase() {
-        //     var query = "INSERT INTO test_table (data, data_num) VALUES (?,?)";
-        //     var params = ["test", 100];
+        testDatabase();
+        
+        // Functions
+        // =========
+        function testDatabase() {
+            var query = "INSERT INTO test_table (data, data_num) VALUES (?,?)";
+            var params = ["test", 100];
             
-        //     $cordovaSQLite.execute(db, query, params)
-        //         .then(databaseSuccess, databaseError);
-        // }
+            $cordovaSQLite.execute(db, query, params)
+                .then(databaseSuccess, databaseError);
+        }
         
-        // function databaseSuccess(res) {
-        //     // $log.info("insertId: " + res.insertId);
-        // }
+        function databaseSuccess(res) {
+            $log.info("insertId: " + res.insertId);
+        }
         
-        // function databaseError(err) {
-        // //    $log.error(err);
-        // }
+        function databaseError(err) {
+            $log.error(err);
+        }
     }
 
 })();
