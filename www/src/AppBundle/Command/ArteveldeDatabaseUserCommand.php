@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ArteveldeDatabaseUserCommand.
+ * Class ArteveldeDatabaseUserCommand.
  *
  * Use:
  * $ php app/console artevelde:database:user
@@ -24,6 +24,10 @@ class ArteveldeDatabaseUserCommand extends ContainerAwareCommand
             ->setDescription('Creates a database user based on the configuration');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();

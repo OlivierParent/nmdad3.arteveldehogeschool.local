@@ -1,5 +1,5 @@
 {
-    "name": "vagrant/www",
+    "name": "artevelde/www",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -19,10 +19,21 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
-        "doctrine/doctrine-migrations-bundle": "^1.1"
+        "doctrine/doctrine-migrations-bundle": "^1.1",
+        "phpunit/phpunit": "^5.0",
+        "behat/behat": "^3.0",
+        "behat/symfony2-extension": "^2.1",
+        "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.1",
+        "behat/mink-browserkit-driver": "^1.3",
+        "friendsofsymfony/rest-bundle": "^1.7",
+        "jms/serializer-bundle": "^1.0",
+        "nelmio/api-doc-bundle": "^2.10",
+        "nelmio/cors-bundle": "^1.4"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "fzaninotto/faker": "^1.5"
     },
     "scripts": {
         "post-install-cmd": [

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ArteveldeDatabaseRestoreCommand.
+ * Class ArteveldeDatabaseRestoreCommand.
  *
  * Use:
  * $ php app/console artevelde:database:restore
@@ -24,6 +24,10 @@ class ArteveldeDatabaseRestoreCommand extends ContainerAwareCommand
             ->setDescription('Restores database from latest SQL dump');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();

@@ -9,10 +9,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ArteveldeDatabaseInitCommand.
+ * Class ArteveldeDatabaseInitCommand.
  *
  * Use:
- * $ php app/console artevelde:database:init
+ * $ php app/console artevelde:database:init --migrate --seed
  *
  * @author Olivier Parent <olivier.parent@arteveldehs.be>
  * @copyright Copyright © 2015-2016, Artevelde University College Ghent
@@ -23,10 +23,17 @@ class ArteveldeDatabaseInitCommand extends ContainerAwareCommand
     {
         $this
             ->setName('artevelde:database:init')
-            ->setDescription('Creates database user, creates database, and migrates Doctrine Migrations')
+            ->setDescription('Creates database user, creates database and schema')
+            ->addOption('migrate', null, InputOption::VALUE_NONE, 'Migrates Doctrine Migrations')
             ->addOption('seed', null, InputOption::VALUE_NONE, 'Loads Doctrine Fixtures');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $application = $this->getApplication();
@@ -34,8 +41,12 @@ class ArteveldeDatabaseInitCommand extends ContainerAwareCommand
         $commands = [
             'artevelde:database:user',
             'doctrine:database:create',
-            'doctrine:migrations:migrate',
+            'doctrine:schema:create',
         ];
+
+        if ($input->getOption('migrate')) {
+            $commands[] = 'doctrine:migrations:migrate';
+        }
 
         if ($input->getOption('seed')) {
             $commands[] = 'doctrine:fixtures:load';

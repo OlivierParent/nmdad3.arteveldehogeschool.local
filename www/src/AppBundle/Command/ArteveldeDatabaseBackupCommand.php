@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ArteveldeDatabaseBackupCommand.
+ * Class ArteveldeDatabaseBackupCommand.
  *
  * Use:
  * $ php app/console artevelde:database:backup
@@ -24,6 +24,10 @@ class ArteveldeDatabaseBackupCommand extends ContainerAwareCommand
             ->setDescription('Dumps database to SQL file for backup');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
