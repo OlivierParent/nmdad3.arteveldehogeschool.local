@@ -376,7 +376,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     // Methods for UserInterface implementation.
     // -----------------------------------------
-    // http://api.symfony.com/2.5/Symfony/Component/Security/Core/User/UserInterface.html
+    // http://api.symfony.com/2.7/Symfony/Component/Security/Core/User/UserInterface.html
 
     /**
      * Set username.
@@ -452,7 +452,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     // Methods for AdvancedUserInterface implementation.
     // -------------------------------------------------
-    // http://api.symfony.com/2.5/Symfony/Component/Security/Core/User/AdvancedUserInterface.html
+    // http://api.symfony.com/2.7/Symfony/Component/Security/Core/User/AdvancedUserInterface.html
 
     /**
      * {@inheritdoc}
