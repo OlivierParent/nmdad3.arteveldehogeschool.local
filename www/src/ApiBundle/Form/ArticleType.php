@@ -37,6 +37,6 @@ class ArticleType extends AbstractType
      */
     public function getName()
     {
-        return 'apibundle_article';
+        return 'article'; // Name of form or JSON with this structure "{ article: { ... } }"
     }
 }

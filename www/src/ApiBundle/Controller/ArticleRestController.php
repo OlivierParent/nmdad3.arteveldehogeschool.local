@@ -17,11 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ArticleController.
+ * Class ArticleRestController.
  *
  * @Route("/v1")
  */
-class ArticleController extends FOSRestController
+class ArticleRestController extends FOSRestController
 {
     /**
      * Test API options and requirements.
@@ -272,6 +272,11 @@ class ArticleController extends FOSRestController
 
             return $response;
         }
+
+        $errors = array_map(function($e) {return $e; }, iterator_to_array($form->getErrors()));
+
+        var_dump($article);
+        var_dump($errors); die();
 
         return View::create($form, Response::HTTP_BAD_REQUEST);
     }

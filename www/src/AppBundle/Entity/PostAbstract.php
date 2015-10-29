@@ -42,7 +42,7 @@ abstract class PostAbstract
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=255)
      * @JMS\Expose()
