@@ -28,7 +28,7 @@ class Article extends PostAbstract
      * @Assert\NotBlank()
      * @ORM\Column(name="body", type="text")
      */
-    private $body;
+    protected $body;
 
     /**
      * Get id.

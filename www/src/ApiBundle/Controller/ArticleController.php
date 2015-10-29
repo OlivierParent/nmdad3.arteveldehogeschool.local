@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Controller;
 
+use ApiBundle\Form\ArticleType;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\Criteria;
@@ -33,7 +34,7 @@ class ArticleController extends FOSRestController
      *     }
      * )
      */
-    public function optionsArticlesAction()
+    public function optionsAction()
     {
         $response = new Response();
         $response->headers->set('Allow', 'OPTIONS, GET, POST, PUT');
@@ -58,7 +59,7 @@ class ArticleController extends FOSRestController
      *     }
      * )
      */
-    public function getArticlesAction($user_id, ParamFetcher $paramFetcher)
+    public function getAllAction($user_id, ParamFetcher $paramFetcher)
     {
         # GET http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/articles.json
         # GET http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/articles.xml?sort=title&amp;order=desc
@@ -68,7 +69,6 @@ class ArticleController extends FOSRestController
 //            $paramFetcher->get('order'),
 //            $paramFetcher->all(),
 //        ]);
-
 
         $em = $this->getDoctrine()->getManager();
         $user = $em
@@ -129,10 +129,7 @@ class ArticleController extends FOSRestController
     /**
      * Post a new article.
      *
-     * { "article": {
-     *     "title": "Lorem",
-     *     "body": "ipsum"
-     * } }
+     * { "article": { "title": "Lorem", "body": "ipsum" } }
      *
      * @param Request $request
      * @param $user_id
@@ -148,7 +145,7 @@ class ArticleController extends FOSRestController
      *     }
      * )
      */
-    public function postArticleAction(Request $request, $user_id)
+    public function postAction(Request $request, $user_id)
     {
         # POST http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/user/1/articles/
 
@@ -185,7 +182,7 @@ class ArticleController extends FOSRestController
      *     }
      * )
      */
-    public function putArticleAction(Request $request, $user_id, $article_id)
+    public function putAction(Request $request, $user_id, $article_id)
     {
         # E.g. PUT http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/users/1/articles/1
 
@@ -219,7 +216,7 @@ class ArticleController extends FOSRestController
      *     }
      * )
      */
-    public function deleteArticleAction($user_id, $article_id)
+    public function deleteAction($user_id, $article_id)
     {
         # E.g. DELETE http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/users/1/articles/1
 

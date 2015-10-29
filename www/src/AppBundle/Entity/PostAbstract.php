@@ -47,14 +47,14 @@ abstract class PostAbstract
      * @ORM\Column(name="title", type="string", length=255)
      * @JMS\Expose()
      */
-    private $title;
+    protected $title;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
@@ -62,21 +62,21 @@ abstract class PostAbstract
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      * @JMS\Exclude()
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
-    private $deletedAt;
+    protected $deletedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
-    private $publishedAt;
+    protected $publishedAt;
 
     // Relationships
 
@@ -91,7 +91,7 @@ abstract class PostAbstract
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
-    private $user;
+    protected $user;
 
     /**
      * @var ArrayCollection
@@ -106,7 +106,7 @@ abstract class PostAbstract
      * )
      * @JMS\Expose()
      */
-    private $categories;
+    protected $categories;
 
     /**
      * Constructor.
