@@ -6,7 +6,7 @@ use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker;
+use Faker\Factory as Faker;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -45,7 +45,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function load(ObjectManager $em)
     {
-        $faker = Faker\Factory::create();
+        $locale = 'nl_BE';
+        $faker = Faker::create($locale);
 
         $user = new User();
         $em->persist($user); // Manage Entity for persistence.

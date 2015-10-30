@@ -6,7 +6,7 @@ use AppBundle\Entity\Image;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker;
+use Faker\Factory as Faker;
 
 /**
  * Class LoadImageData.
@@ -29,7 +29,7 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $em)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker::create();
 
         $image = new Image();
         $em->persist($image); // Manage Entity for persistence.

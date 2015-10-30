@@ -6,7 +6,7 @@ use AppBundle\Entity\Article;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker;
+use Faker\Factory as Faker;
 
 /**
  * Class LoadArticleData.
@@ -29,7 +29,7 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $em)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker::create();
 
         $article = new Article();
         $em->persist($article); // Manage Entity for persistence.
