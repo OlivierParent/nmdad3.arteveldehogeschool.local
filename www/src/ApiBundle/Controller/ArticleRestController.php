@@ -5,7 +5,6 @@ namespace ApiBundle\Controller;
 use ApiBundle\Form\ArticleType;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\User;
-use Doctrine\Common\Collections\Criteria;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -82,7 +81,7 @@ class ArticleRestController extends FOSRestController
         $posts = $user->getPosts();
 
         $articles = $posts->filter(
-            function($post) {
+            function ($post) {
                 return $post instanceof Article;
             });
 
@@ -273,10 +272,7 @@ class ArticleRestController extends FOSRestController
             return $response;
         }
 
-        $errors = array_map(function($e) {return $e; }, iterator_to_array($form->getErrors()));
-
-        var_dump($article);
-        var_dump($errors); die();
+        $errors = array_map(function ($e) {return $e; }, iterator_to_array($form->getErrors()));
 
         return View::create($form, Response::HTTP_BAD_REQUEST);
     }

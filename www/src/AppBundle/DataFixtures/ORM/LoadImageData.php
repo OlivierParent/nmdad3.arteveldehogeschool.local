@@ -29,7 +29,8 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $em)
     {
-        $faker = Faker::create();
+        $locale = 'nl_BE';
+        $faker = Faker::create($locale);
 
         $image = new Image();
         $em->persist($image); // Manage Entity for persistence.

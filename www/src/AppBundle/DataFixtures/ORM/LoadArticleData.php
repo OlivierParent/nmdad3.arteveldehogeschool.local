@@ -29,7 +29,8 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $em)
     {
-        $faker = Faker::create();
+        $locale = 'nl_BE';
+        $faker = Faker::create($locale);
 
         $article = new Article();
         $em->persist($article); // Manage Entity for persistence.
