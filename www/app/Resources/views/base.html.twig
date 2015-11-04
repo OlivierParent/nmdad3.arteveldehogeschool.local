@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html>
+{% set version = {
+    'bootstrap': '4.0.0-alpha',
+    'jQuery'   : ''
+} %}<!DOCTYPE html>
+<html lang="nl">
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/{{ version.bootstrap }}/css/bootstrap.min.css">
+        <title>{% block title %}NMDAD3 Demo{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/{{ version.bootstrap }}/js/bootstrap.min.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme new_form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <h1>Register</h1>
+    {{ form_start(new_form) }}
+        {{ form_widget(new_form) }}
+        <button type="submit" class="btn btn-primary-outline">Register</button>
+        <a class="btn btn-secondary-outline" href="{{ path('homepage') }}">Back</a>
+    {{ form_end(new_form) }}
+{% endblock %}

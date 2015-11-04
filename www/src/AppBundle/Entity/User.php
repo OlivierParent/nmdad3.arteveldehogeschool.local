@@ -5,15 +5,19 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
+use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User.
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
+ * @UniqueEntity("username")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements AdvancedUserInterface, Serializable
 {
     const ROLE_USER = 'ROLE_USER';
 
@@ -29,6 +33,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     private $firstName;
@@ -36,6 +41,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     private $lastName;
@@ -51,32 +57,32 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="enabled_at", type="datetime", nullable=true)
      * @JMS\Exclude()
+     * @ORM\Column(name="enabled_at", type="datetime", nullable=true)
      */
     private $enabledAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="locked_at", type="datetime", nullable=true)
      * @JMS\Exclude()
+     * @ORM\Column(name="locked_at", type="datetime", nullable=true)
      */
     private $lockedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="expired_at", type="datetime", nullable=true)
      * @JMS\Exclude()
+     * @ORM\Column(name="expired_at", type="datetime", nullable=true)
      */
     private $expiredAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="expired_credentials_at", type="datetime", nullable=true)
      * @JMS\Exclude()
+     * @ORM\Column(name="expired_credentials_at", type="datetime", nullable=true)
      */
     private $expiredCredentialsAt;
 
@@ -110,10 +116,16 @@ class User implements AdvancedUserInterface, \Serializable
 
     // Members for UserInterface implementation.
     // -----------------------------------------
+    // http://api.symfony.com/2.7/Symfony/Component/Security/Core/User/UserInterface.html
 
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 8,
+     *     max = 255
+     * )
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
@@ -126,14 +138,22 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=64, options={"fixed":true})
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 8,
+     *     max = 4096
+     * )
      * @JMS\Exclude()
      */
+    private $passwordRaw;
+
+    /**
+     * @var string
+     *
+     * @JMS\Exclude()
+     * @ORM\Column(name="password", type="string", length=64, options={"fixed":true})
+     */
     private $password;
-
-    // Members for UserInterface implementation.
-    // -----------------------------------------
-
 
     /**
      * Constructor.
@@ -400,6 +420,29 @@ class User implements AdvancedUserInterface, \Serializable
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set passwordRaw.
+     *
+     * @param string $password
+     * @return $this
+     */
+    public function setPasswordRaw($password)
+    {
+        $this->passwordRaw = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordRaw.
+     *
+     * @return string
+     */
+    public function getPasswordRaw()
+    {
+        return $this->passwordRaw;
     }
 
     /**

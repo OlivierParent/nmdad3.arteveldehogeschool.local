@@ -1,13 +1,13 @@
 <?php
 
-namespace ApiBundle\Form;
+namespace AppBundle\Form\User;
 
-use AppBundle\Entity\Article;
+use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticleType extends AbstractType
+class NewType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,9 +16,10 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', null, ['required' => false])
-            ->add('title')
-            ->add('body')
+            ->add('firstName')
+            ->add('lastName')
+            ->add('username')
+            ->add('password')
         ;
     }
 
@@ -28,20 +29,17 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Article::class,
-            'csrf_protection' => false,
+            'data_class' => User::class,
         ]);
     }
 
     /**
-     * JSON object name.
-     *
-     * { article: { ... } }
+     * Form name.
      *
      * @return string
      */
     public function getName()
     {
-        return 'article';
+        return 'appbundle_user_update';
     }
 }

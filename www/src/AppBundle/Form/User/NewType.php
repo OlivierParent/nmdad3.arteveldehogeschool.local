@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\User;
 
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class NewType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -18,14 +18,14 @@ class UserType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('createdAt')
-            ->add('enabledAt')
-            ->add('lockedAt')
-            ->add('expiredAt')
-            ->add('expiredCredentialsAt')
-            ->add('deletedAt')
             ->add('username')
-            ->add('password')
+            ->add('passwordRaw', /* $type = */'repeated', /* $options = */[
+                'type' => 'password',
+                'invalid_message' => 'The password fields must match.',
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
+            ])
         ;
     }
 
@@ -46,6 +46,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_user';
+        return 'appbundle_user_new';
     }
 }

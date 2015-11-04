@@ -35,6 +35,11 @@ class ArticleRestController extends FOSRestController
      */
     public function optionsAction()
     {
+        # HTTP method: OPTIONS
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles/
+
         $response = new Response();
         $response->headers->set('Allow', 'OPTIONS, GET, POST, PUT');
 
@@ -60,8 +65,12 @@ class ArticleRestController extends FOSRestController
      */
     public function getAllAction($user_id, ParamFetcher $paramFetcher)
     {
-        # GET http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/articles.json
-        # GET http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/articles.xml?sort=title&amp;order=desc
+        # HTTP method: GET
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles.json
+        # Path       : /app_dev.php/api/v1/users/1/articles.xml
+        # Path       : /app_dev.php/api/v1/users/1/articles.xml?sort=title&amp;order=desc
 
 //        dump([
 //            $paramFetcher->get('sort'),
@@ -80,10 +89,12 @@ class ArticleRestController extends FOSRestController
 
         $posts = $user->getPosts();
 
-        $articles = $posts->filter(
-            function ($post) {
-                return $post instanceof Article;
-            });
+        $articles = $posts
+            ->filter(
+                function ($post) {
+                    return $post instanceof Article;
+                }
+            );
 
         return $articles;
     }
@@ -108,7 +119,10 @@ class ArticleRestController extends FOSRestController
      */
     public function getArticleAction($user_id, $article_id)
     {
-        # GET http://www.nmdad3.arteveldehogeschool.local/api/v1/users/1/articles/1.json
+        # HTTP method: GET
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles/1.json
 
         $em = $this->getDoctrine()->getManager();
 
@@ -146,7 +160,10 @@ class ArticleRestController extends FOSRestController
      */
     public function postAction(Request $request, $user_id)
     {
-        # POST http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/user/1/articles/
+        # HTTP method: POST
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles/
 
         $em = $this->getDoctrine()->getManager();
 
@@ -183,7 +200,10 @@ class ArticleRestController extends FOSRestController
      */
     public function putAction(Request $request, $user_id, $article_id)
     {
-        # E.g. PUT http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/users/1/articles/1
+        # HTTP method: PUT
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles/1
 
         $em = $this->getDoctrine()->getManager();
         $article = $em
@@ -217,7 +237,10 @@ class ArticleRestController extends FOSRestController
      */
     public function deleteAction($user_id, $article_id)
     {
-        # E.g. DELETE http://www.nmdad3.arteveldehogeschool.local/app_dev.php/api/v1/users/1/articles/1
+        # HTTP method: DELETE
+        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
+        #
+        # Path       : /app_dev.php/api/v1/users/1/articles/1
 
         $em = $this->getDoctrine()->getManager();
 
@@ -261,7 +284,7 @@ class ArticleRestController extends FOSRestController
             $response = new Response();
             $response->setStatusCode($statusCode);
 
-            // Redirect to URI of resource.
+            // Redirect to the URI of the resource.
             $response->headers->set('Location',
                 $this->generateUrl('api_article_getarticle', [
                     'user_id' => $article->getUser()->getId(),
@@ -271,8 +294,6 @@ class ArticleRestController extends FOSRestController
 
             return $response;
         }
-
-        $errors = array_map(function ($e) {return $e; }, iterator_to_array($form->getErrors()));
 
         return View::create($form, Response::HTTP_BAD_REQUEST);
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace ApiBundle\Form;
+namespace AppBundle\Form\Security;
 
-use AppBundle\Entity\Article;
+use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticleType extends AbstractType
+class LoginType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,9 +16,8 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', null, ['required' => false])
-            ->add('title')
-            ->add('body')
+            ->add('username')
+            ->add('password', /* $type = */'password')
         ;
     }
 
@@ -28,20 +27,17 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Article::class,
-            'csrf_protection' => false,
+            'data_class' => User::class,
         ]);
     }
 
     /**
-     * JSON object name.
-     *
-     * { article: { ... } }
+     * Form name.
      *
      * @return string
      */
     public function getName()
     {
-        return 'article';
+        return 'appbundle_security_login';  // Used in app/config/security.yml: username_parameter & password_parameter
     }
 }

@@ -3,6 +3,8 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\User;
+use AppBundle\Traits\ContainerTrait;
+use AppBundle\Traits\PasswordTrait;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -18,19 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    public function hashPassword($user)
-    {
-        $passwordEncoder = $this->container->get('security.password_encoder');
-        $encodedPassword = $passwordEncoder->encodePassword($user, $user->getSalt());
-        $user->setPassword($encodedPassword);
-    }
+    use ContainerTrait, PasswordTrait;
 
     /**
      * {@inheritdoc}
@@ -54,7 +44,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             ->setFirstName('Test')
             ->setLastName('User')
             ->setUsername('TestUser')
-            ->setPassword('TestUser');
+            ->setPasswordRaw('TestUser');
         $this->hashPassword($user);
         $this->addReference('TestUser', $user); // Reference for the next Data Fixture(s).
 
@@ -62,10 +52,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             $user = new User();
             $em->persist($user);
             $user
-                ->setFirstName($faker->firstName)
-                ->setLastName($faker->lastName)
-                ->setUsername($faker->userName)
-                ->setPassword($faker->password());
+                ->setFirstName($faker->firstName())
+                ->setLastName($faker->lastName())
+                ->setUsername($faker->userName())
+                ->setPasswordRaw($faker->password());
             $this->hashPassword($user);
             $this->addReference("TestUser-${i}", $user); // Reference for the next Data Fixture(s).
         }

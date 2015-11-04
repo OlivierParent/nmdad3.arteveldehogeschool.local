@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme login_form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <h1>Login</h1>
+    {%- if error -%}
+    {{ error.message }}
+    {%- endif -%}
+    {{ form_start(login_form) }}
+        {{ form_widget(login_form) }}
+        <button type="submit" class="btn btn-primary-outline">Login</button>
+        <a class="btn btn-secondary-outline" href="{{ path('homepage') }}">Back</a>
+    {{ form_end(login_form) }}
+{% endblock %}

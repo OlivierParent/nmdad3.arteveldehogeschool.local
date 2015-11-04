@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="record_properties">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Firstname</th>
+            <td>{{ entity.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Lastname</th>
+            <td>{{ entity.lastName }}</td>
+        </tr>
+        <tr>
+            <th>Createdat</th>
+            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Enabledat</th>
+            <td>{{ entity.enabledAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Lockedat</th>
+            <td>{{ entity.lockedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Expiredat</th>
+            <td>{{ entity.expiredAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Expiredcredentialsat</th>
+            <td>{{ entity.expiredCredentialsAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Deletedat</th>
+            <td>{{ entity.deletedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ entity.username }}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>{{ entity.password }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('users') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('users_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+{% endblock %}
