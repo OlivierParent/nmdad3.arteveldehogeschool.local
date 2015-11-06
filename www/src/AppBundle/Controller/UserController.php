@@ -3,14 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Traits\PasswordTrait;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Form\User as UserForm;
 use AppBundle\Form\UserType;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * User controller.
@@ -45,7 +45,9 @@ class UserController extends Controller
      * @Route("/", name="users_create")
      * @Method("POST")
      * @Template("User/new.html.twig")
+     *
      * @param Request $request
+     *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function createAction(Request $request)
@@ -55,10 +57,7 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->hashPassword($user);
-//            $encodedPassword = $this->get('security.password_encoder')
-//                ->encodePassword($user, $user->getPasswordRaw());
-//            $user->setPassword($encodedPassword);
+            $this->hashPassword($user); // From AppBundle\Traits\PasswordTrait
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -226,8 +225,10 @@ class UserController extends Controller
      *     "id": "\d+"
      * })
      * @Method("DELETE")
+     *
      * @param Request $request
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, $id)

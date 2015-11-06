@@ -12,6 +12,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+    {% include 'menu.html.twig' %}
         <div class="container">
             {% block body %}{% endblock %}
         </div>

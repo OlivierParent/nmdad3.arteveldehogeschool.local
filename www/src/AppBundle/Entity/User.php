@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User.
  *
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("username")
  */
 class User implements AdvancedUserInterface, Serializable
@@ -426,6 +426,7 @@ class User implements AdvancedUserInterface, Serializable
      * Set passwordRaw.
      *
      * @param string $password
+     *
      * @return $this
      */
     public function setPasswordRaw($password)

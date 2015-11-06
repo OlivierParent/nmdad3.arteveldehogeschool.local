@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
-
 /**
  * Class SecurityController.
  *
@@ -50,6 +49,7 @@ class SecurityController extends Controller
 
     /**
      * @param User $user
+     *
      * @return \Symfony\Component\Form\Form
      */
     public function createLoginForm(User $user)
@@ -61,5 +61,4 @@ class SecurityController extends Controller
 
         return $form;
     }
-
 }

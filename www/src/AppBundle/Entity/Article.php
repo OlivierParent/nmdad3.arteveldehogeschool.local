@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Article.
  *
  * @ORM\Table(name="articles")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\ArticleRepository")
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
 class Article extends PostAbstract
 {

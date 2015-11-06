@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Image.
  *
  * @ORM\Table(name="images")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\ImageRepository")
+ * @ORM\Entity(repositoryClass=ImageRepository::class)
  */
 class Image extends PostAbstract
 {
@@ -27,6 +29,17 @@ class Image extends PostAbstract
      * @ORM\Column(name="uri", type="string", length=255)
      */
     private $uri;
+
+    /**
+     * @var UploadedFile
+     *
+     * http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html
+     *
+     * @Assert\NotBlank()
+     * @Assert\File(maxSize="6000000")
+     * @Assert\File(mimeTypes={"image/gif", "image/png", "image/jpeg"})
+     */
+    private $file;
 
     /**
      * Get id.
@@ -60,5 +73,25 @@ class Image extends PostAbstract
     public function getUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * Set file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

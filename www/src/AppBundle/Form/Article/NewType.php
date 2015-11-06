@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Form\User;
+namespace AppBundle\Form\Article;
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UpdateType extends AbstractType
+class NewType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,10 +16,8 @@ class UpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('username')
-            ->add('password')
+            ->add('title')
+            ->add('body')
         ;
     }
 
@@ -29,7 +27,7 @@ class UpdateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Article::class,
         ]);
     }
 
@@ -40,6 +38,6 @@ class UpdateType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_user_update';
+        return 'appbundle_article_new';
     }
 }

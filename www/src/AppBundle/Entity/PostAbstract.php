@@ -11,16 +11,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * PostAbstract.
  *
  * @ORM\Table(name="posts")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PostRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string", length=1)
  * @ORM\DiscriminatorMap({
- *     PostAbstract::POST_ARTICLE:"Article",
- *     PostAbstract::POST_IMAGE  :"Image"
+ *     PostAbstract::POST_ARTICLE : "Article",
+ *     PostAbstract::POST_IMAGE   : "Image"
  * })
  * @JMS\Discriminator(field = "discriminator", map = {
- *     PostAbstract::POST_ARTICLE:"AppBundle\Entity\Article",
- *     PostAbstract::POST_IMAGE  :"AppBundle\Entity\Image"
+ *     PostAbstract::POST_ARTICLE : Article::class,
+ *     PostAbstract::POST_IMAGE   : Image::class
  * })
  * @JMS\ExclusionPolicy("all")
  */
