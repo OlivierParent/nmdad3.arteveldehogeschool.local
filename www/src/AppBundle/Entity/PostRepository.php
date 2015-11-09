@@ -19,6 +19,6 @@ class PostRepository extends EntityRepository
      */
     public function findAll()
     {
-        return $this->findBy([], ['createdAt' => 'DESC']);
+        return $this->findBy([], ['createdAt' => 'DESC', 'id' => 'DESC']);
     }
 }

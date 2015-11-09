@@ -16,6 +16,8 @@ use Faker\Factory as Faker;
  */
 class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
 {
+    const COUNT = 3;
+
     /**
      * {@inheritdoc}
      */
@@ -39,13 +41,15 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
             ->setBody($faker->paragraph(3))
             ->setUser($this->getReference('TestUser')); // Get reference from a previous Data Fixture.
 
-        for ($i = 0; $i < 10; ++$i) {
-            $article = new Article();
-            $em->persist($article); // Manage Entity for persistence.
-            $article
-                ->setTitle($faker->sentence(3))
-                ->setBody($faker->paragraph(3))
-                ->setUser($this->getReference("TestUser-${i}")); // Get reference from a previous Data Fixture.
+        for ($userCount = 0; $userCount < LoadUserData::COUNT; ++$userCount) {
+            for ($articleCount = 0; $articleCount < self::COUNT; ++$articleCount) {
+                $article = new Article();
+                $em->persist($article); // Manage Entity for persistence.
+                $article
+                    ->setTitle($faker->sentence(3))
+                    ->setBody($faker->paragraph(3))
+                    ->setUser($this->getReference("TestUser-${userCount}")); // Get reference from a previous Data Fixture.
+            }
         }
 
         $em->flush(); // Persist all managed Entities.

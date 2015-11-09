@@ -16,6 +16,8 @@ use Faker\Factory as Faker;
  */
 class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
 {
+    const COUNT = 3;
+
     /**
      * {@inheritdoc}
      */
@@ -39,13 +41,15 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
             ->setUri('http://www.arteveldehogeschool.be/images/artev_e-signature_rgb_s.png')
             ->setUser($this->getReference('TestUser')); // Get reference from a previous Data Fixture.
 
-        for ($i = 0; $i < 10; ++$i) {
-            $image = new Image();
-            $em->persist($image); // Manage Entity for persistence.
-            $image
-                ->setTitle($faker->sentence(3))
-                ->setUri($faker->imageUrl())
-                ->setUser($this->getReference("TestUser-${i}")); // Get reference from a previous Data Fixture.
+        for ($userCount = 0; $userCount < LoadUserData::COUNT; ++$userCount) {
+            for ($imageCount = 0; $imageCount < self::COUNT; ++$imageCount) {
+                $image = new Image();
+                $em->persist($image); // Manage Entity for persistence.
+                $image
+                    ->setTitle($faker->sentence(3))
+                    ->setUri($faker->imageUrl())
+                    ->setUser($this->getReference("TestUser-${userCount}")); // Get reference from a previous Data Fixture.
+            }
         }
 
         $em->flush(); // Persist all managed Entities.

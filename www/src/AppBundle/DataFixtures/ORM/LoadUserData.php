@@ -21,6 +21,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 {
     use ContainerTrait, PasswordTrait;
 
+    const COUNT = 5;
+
     /**
      * {@inheritdoc}
      */
@@ -47,7 +49,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $this->hashPassword($user);
         $this->addReference('TestUser', $user); // Reference for the next Data Fixture(s).
 
-        for ($i = 0; $i < 10; ++$i) {
+        for ($userCount = 0; $userCount < self::COUNT; ++$userCount) {
             $user = new User();
             $em->persist($user);
             $user
@@ -56,7 +58,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
                 ->setUsername($faker->userName())
                 ->setPasswordRaw($faker->password());
             $this->hashPassword($user);
-            $this->addReference("TestUser-${i}", $user); // Reference for the next Data Fixture(s).
+            $this->addReference("TestUser-${userCount}", $user); // Reference for the next Data Fixture(s).
         }
 
         $em->flush(); // Persist all managed Entities.
