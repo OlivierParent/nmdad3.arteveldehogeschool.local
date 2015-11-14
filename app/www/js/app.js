@@ -11,13 +11,15 @@
         'ionic',
         'ngCordova',
         // Modules
+        'app.blog',
         'app.common',
         'app.camera',
         'app.database',
         'app.services'
     ]);
-    angular.module('app.common', []);
-    angular.module('app.camera', []);
+    angular.module('app.blog'    , []);
+    angular.module('app.common'  , []);
+    angular.module('app.camera'  , []);
     angular.module('app.database', []);
     angular.module('app.services', []);
 
@@ -63,13 +65,15 @@
     Config.$inject = [
         // Angular
         '$compileProvider',
-        '$httpProvider'
+        '$httpProvider',
+        '$urlRouterProvider'
     ];
 
     function Config(
         // Angular
         $compileProvider,
-        $httpProvider
+        $httpProvider,
+        $urlRouterProvider
     ) {
         // Allow 'app:' as protocol (for use in Hybrid Mobile apps)
         $compileProvider
@@ -80,6 +84,74 @@
         // Enable CORS (Cross-Origin Resource Sharing)
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+        // Routes
+        $urlRouterProvider.otherwise('/');
+    }
+
+})();
+
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.blog')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('blog', {
+                controller: 'BlogCtrl as vm',
+                templateUrl: 'templates/blog/blog.view.html',
+                url: '/blog'
+            });
+    }
+
+})();
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.blog')
+        .controller('BlogCtrl', BlogCtrl);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    BlogCtrl.$inject = [
+        // Angular
+        '$log'
+    ];
+
+    function BlogCtrl(
+        // Angular
+        $log
+    ) {
+        // ViewModel
+        // =========
+        var vm = this;
+
+        vm.title = 'Blog Demo'
+
+        // Functions
+        // =========
+
     }
 
 })();
@@ -92,39 +164,28 @@
 ;(function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.camera')
         .config(Routes);
 
     // Inject dependencies into constructor (needed when JS minification is applied).
     Routes.$inject = [
         // Angular
-        '$stateProvider',
-        '$urlRouterProvider'
+        '$stateProvider'
     ];
 
     function Routes(
         // Angular
-        $stateProvider,
-        $urlRouterProvider
+        $stateProvider
     ) {
         $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'templates/common/home.view.html'
-            })
             .state('camera', {
-                url: '/camera',
-                templateUrl: 'templates/camera/camera.view.html'
-            })
-            .state('database', {
-                url: '/database',
-                templateUrl: 'templates/database/database.view.html'
+                controller: 'CameraCtrl as vm',
+                templateUrl: 'templates/camera/camera.view.html',
+                url: '/camera'
             });
-        $urlRouterProvider.otherwise('/');
     }
 
 })();
-
 /**
  * @author    Olivier Parent
  * @copyright Copyright © 2015-2016 Artevelde University College Ghent
@@ -199,6 +260,36 @@
     'use strict';
 
     angular.module('app.common')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('home', {
+                controller: 'HomeCtrl as vm',
+                templateUrl: 'templates/common/home.view.html',
+                url: '/'
+            });
+    }
+
+})();
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.common')
         .controller('HomeCtrl', HomeCtrl);
 
     // Inject dependencies into constructor (needed when JS minification is applied).
@@ -229,6 +320,36 @@
     'use strict';
 
     angular.module('app.database')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('database', {
+                    controller: 'DatabaseCtrl as vm',
+                    templateUrl: 'templates/database/database.view.html',
+                    url: '/database'
+                });
+    }
+
+})();
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.database')
         .controller('DatabaseCtrl', DatabaseCtrl);
 
     // Inject dependencies into constructor (needed when JS minification is applied).
@@ -247,6 +368,8 @@
     ) {
         // Database
         var db = $cordovaSQLite.openDB({ name: "nmdad3.db" });
+        // https://blog.nraboy.com/2014/11/use-sqlite-instead-local-storage-ionic-framework/
+        
         
         // ViewModel
         // =========

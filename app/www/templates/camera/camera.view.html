@@ -1,7 +1,7 @@
-<ion-view title="{{ camera.title }}" ng-controller="CameraCtrl as camera">
+<ion-view title="{{ vm.title }}">
     <ion-content>
-        <button ng-click="camera.getPhoto()" class="button button-block button-primary">Take Photo</button>
-           <img ng-src="{{ camera.lastPhoto }}" style="max-width: 100%">
-           photo: <code>{{ camera.lastPhotoMessage }}</code>
+        <button ng-click="vm.getPhoto()" class="button button-block button-primary">Take Photo</button>
+           <img ng-src="{{ vm.lastPhoto }}" style="max-width: 100%">
+           photo: <code>{{ vm.lastPhotoMessage }}</code>
     </ion-content>
 </ion-view>
