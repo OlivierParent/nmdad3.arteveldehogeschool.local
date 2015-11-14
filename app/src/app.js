@@ -10,6 +10,7 @@
     var app = angular.module('app', [
         'ionic',
         'ngCordova',
+        'ngResource',
         // Modules
         'app.blog',
         'app.common',

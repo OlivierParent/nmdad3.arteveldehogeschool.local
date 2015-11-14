@@ -10,6 +10,7 @@
     var app = angular.module('app', [
         'ionic',
         'ngCordova',
+        'ngResource',
         // Modules
         'app.blog',
         'app.common',
@@ -91,7 +92,6 @@
 
 })();
 
-
 /**
  * @author    Olivier Parent
  * @copyright Copyright © 2015-2016 Artevelde University College Ghent
@@ -136,22 +136,94 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     BlogCtrl.$inject = [
         // Angular
-        '$log'
+        '$log',
+        // Custom
+        'UserArticleResourceFactory'
     ];
 
     function BlogCtrl(
         // Angular
-        $log
+        $log,
+        // Custom
+        UserArticleResourceFactory // ResourceFactory
     ) {
         // ViewModel
         // =========
         var vm = this;
 
-        vm.title = 'Blog Demo'
+        vm.title = 'Blog Demo';
+
+        vm.articles = getUserArticles();
 
         // Functions
         // =========
+        function getUserArticles() {
 
+            var params = {
+                user_id: 2
+            };
+
+            return UserArticleResourceFactory
+                .query(
+                    params,
+                    getUserArticlesSuccess,
+                    getUserArticlesError
+                );
+        }
+
+        function getUserArticlesError(reason) {
+            $log.error('getUserArticlesError:', reason);
+        }
+
+        function getUserArticlesSuccess(response) {
+            $log.log('getUserArticlesSuccess:', response);
+        }
+
+
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2014-2015 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () { 'use strict';
+
+    angular.module('app.blog')
+        .factory('UserArticleResourceFactory', UserArticleResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    UserArticleResourceFactory.$inject = [
+        // Angular
+        '$resource'
+    ];
+
+    function UserArticleResourceFactory(
+        // Angular
+        $resource
+    ) {
+        var url = 'http://www.nmdad3.arteveldehogeschool.local/api/v1/users/:user_id/articles/:article_id.:format';
+
+        var paramDefaults = {
+            user_id   : '@id',
+            article_id: '@id',
+            format    : 'json'
+        };
+
+        var actions = {
+            //'update': {
+            //    interceptor: {
+            //        response: GoalResponseInterceptorFactory
+            //    },
+            //    isArray: false,
+            //    method: 'PUT',
+            //    transformResponse: GenericResponseTransformerFactory
+            //}
+        };
+
+        return $resource(url, paramDefaults, actions);
     }
 
 })();

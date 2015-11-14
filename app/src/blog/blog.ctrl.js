@@ -12,21 +12,49 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     BlogCtrl.$inject = [
         // Angular
-        '$log'
+        '$log',
+        // Custom
+        'UserArticleResourceFactory'
     ];
 
     function BlogCtrl(
         // Angular
-        $log
+        $log,
+        // Custom
+        UserArticleResourceFactory // ResourceFactory
     ) {
         // ViewModel
         // =========
         var vm = this;
 
-        vm.title = 'Blog Demo'
+        vm.title = 'Blog Demo';
+
+        vm.articles = getUserArticles();
 
         // Functions
         // =========
+        function getUserArticles() {
+
+            var params = {
+                user_id: 2
+            };
+
+            return UserArticleResourceFactory
+                .query(
+                    params,
+                    getUserArticlesSuccess,
+                    getUserArticlesError
+                );
+        }
+
+        function getUserArticlesError(reason) {
+            $log.error('getUserArticlesError:', reason);
+        }
+
+        function getUserArticlesSuccess(response) {
+            $log.log('getUserArticlesSuccess:', response);
+        }
+
 
     }
 

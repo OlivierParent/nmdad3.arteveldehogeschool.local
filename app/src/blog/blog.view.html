@@ -1,5 +1,10 @@
 <ion-view title="{{ vm.title }}">
     <ion-content>
-
+        <ion-list>
+            <ion-item ng-repeat="article in vm.articles">
+                {{ article.id }} {{ article.title }}
+                <p>{{ article.body }}</p>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>
