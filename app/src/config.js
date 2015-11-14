@@ -13,13 +13,15 @@
     Config.$inject = [
         // Angular
         '$compileProvider',
-        '$httpProvider'
+        '$httpProvider',
+        '$urlRouterProvider'
     ];
 
     function Config(
         // Angular
         $compileProvider,
-        $httpProvider
+        $httpProvider,
+        $urlRouterProvider
     ) {
         // Allow 'app:' as protocol (for use in Hybrid Mobile apps)
         $compileProvider
@@ -30,6 +32,9 @@
         // Enable CORS (Cross-Origin Resource Sharing)
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+        // Routes
+        $urlRouterProvider.otherwise('/');
     }
 
 })();

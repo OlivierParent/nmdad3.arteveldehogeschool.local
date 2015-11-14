@@ -11,13 +11,15 @@
         'ionic',
         'ngCordova',
         // Modules
+        'app.blog',
         'app.common',
         'app.camera',
         'app.database',
         'app.services'
     ]);
-    angular.module('app.common', []);
-    angular.module('app.camera', []);
+    angular.module('app.blog'    , []);
+    angular.module('app.common'  , []);
+    angular.module('app.camera'  , []);
     angular.module('app.database', []);
     angular.module('app.services', []);
 
