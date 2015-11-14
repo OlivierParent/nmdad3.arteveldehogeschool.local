@@ -42,10 +42,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user = new User();
         $em->persist($user); // Manage Entity for persistence.
         $user
-            ->setFirstName('Test')
-            ->setLastName('User')
-            ->setUsername('TestUser')
-            ->setPasswordRaw('TestUser');
+            ->setFirstName('NMDAD III')
+            ->setLastName('Test User')
+            ->setUsername('nmdad3_gebruiker')
+            ->setPasswordRaw('nmdad3_wachtwoord');
         $this->hashPassword($user);
         $this->addReference('TestUser', $user); // Reference for the next Data Fixture(s).
 
