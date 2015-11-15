@@ -16,20 +16,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ArticleRestController.
+ * Class UserArticleRestController.
  *
  * @Route("/v1")
  */
-class ArticleRestController extends FOSRestController
+class UserArticleRestController extends FOSRestController
 {
     /**
      * Test API options and requirements.
      *
-     * @FOSRest\Options("/users/{user_id}/articles/")
+     * @FOSRest\Options(
+     *     "/users/{user_id}/articles/",
+     *     name = "api_users_articles_options"
+     * )
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         Response::HTTP_OK: "OK",
+     *         Response::HTTP_OK: "OK"
      *     }
      * )
      */
@@ -53,13 +56,33 @@ class ArticleRestController extends FOSRestController
      * @param ParamFetcher $paramFetcher
      *
      * @return mixed
-     * @FOSRest\Get("/users/{user_id}/articles.{_format}", requirements = { "_format": "json|jsonp|xml" }, defaults = {"_format": "json"})
-     * @FOSRest\QueryParam(name="sort", requirements="id|title", default="id", description="Order by Article id or Article title.")
-     * @FOSRest\QueryParam(name="order", requirements="asc|desc", default="asc", description="Order result ascending or descending.")
+     * @FOSRest\View()
+     * @FOSRest\Get(
+     *     "/users/{user_id}/articles.{_format}",
+     *     name = "api_users_articles_get_all",
+     *     requirements = {
+     *         "_format" : "json|jsonp|xml"
+     *     },
+     *     defaults = {
+     *         "_format" : "json"
+     *     }
+     * )
+     * @FOSRest\QueryParam(
+     *     name = "sort",
+     *     requirements = "id|title",
+     *     default = "id",
+     *     description = "Order by Article id or Article title."
+     * )
+     * @FOSRest\QueryParam(
+     *     name = "order",
+     *     requirements = "asc|desc",
+     *     default = "asc",
+     *     description = "Order result ascending or descending."
+     * )
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         Response::HTTP_OK: "OK",
+     *         Response::HTTP_OK : "OK"
      *     }
      * )
      */
@@ -94,7 +117,7 @@ class ArticleRestController extends FOSRestController
                 function ($post) {
                     return $post instanceof Article;
                 }
-            );
+            )->getValues();
 
         return $articles;
     }
@@ -107,12 +130,22 @@ class ArticleRestController extends FOSRestController
      *
      * @return object
      *
-     * @FOSRest\Get("/users/{user_id}/articles/{article_id}.{_format}", requirements = {"article_id": "\d+", "_format": "json|xml" }, defaults = {"_format": "json"})
+     * @FOSRest\Get(
+     *     "/users/{user_id}/articles/{article_id}.{_format}",
+     *     name = "api_users_articles_get",
+     *     requirements = {
+     *         "article_id" : "\d+",
+     *         "_format" : "json|xml"
+     *     },
+     *     defaults = {
+     *         "_format": "json"
+     *     }
+     * )
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         Response::HTTP_OK        : "OK",
-     *         Response::HTTP_NO_CONTENT: "No Content",
+     *         Response::HTTP_OK : "OK",
+     *         Response::HTTP_NO_CONTENT : "No Content",
      *         Response::HTTP_NOT_FOUND : "Not Found"
      *     }
      * )
@@ -150,11 +183,17 @@ class ArticleRestController extends FOSRestController
      * @return View|Response
      *
      * @FOSRest\View()
-     * @FOSRest\Post("/users/{user_id}/articles/", requirements = {"user_id": "\d+"})
+     * @FOSRest\Post(
+     *     "/users/{user_id}/articles/",
+     *     name = "api_users_articles_post",
+     *     requirements = {
+     *         "user_id" : "\d+"
+     *     }
+     * )
      * @Nelmio\ApiDoc(
      *     input = "Artevelde\ApiBundle\Form\ArticleType",
      *     statusCodes = {
-     *         Response::HTTP_CREATED: "Created"
+     *         Response::HTTP_CREATED : "Created"
      *     }
      * )
      */
@@ -177,6 +216,9 @@ class ArticleRestController extends FOSRestController
         $article = new Article();
         $article->setUser($user);
 
+        $logger = $this->get('logger');
+        $logger->info($request);
+
         return $this->processArticleForm($request, $article);
     }
 
@@ -189,8 +231,19 @@ class ArticleRestController extends FOSRestController
      *
      * @return Response
      *
-     * @FOSRest\View
-     * @FOSRest\Put("/users/{user_id}/articles/{article_id}.{_format}", requirements={"user_id": "\d+", "article_id": "\d+", "_format": "json|xml"}, defaults = {"_format": "json"})
+     * @FOSRest\View()
+     * @FOSRest\Put(
+     *     "/users/{user_id}/articles/{article_id}.{_format}",
+     *     name = "api_users_articles_put",
+     *     requirements = {
+     *         "user_id" : "\d+",
+     *         "article_id" : "\d+",
+     *         "_format" : "json|xml"
+     *     },
+     *     defaults = {
+     *         "_format": "json"
+     *     }
+     * )
      * @Nelmio\ApiDoc(
      *     input = "Artevelde\ApiBundle\Form\ArticleType",
      *     statusCodes = {
@@ -226,8 +279,17 @@ class ArticleRestController extends FOSRestController
      * @param $article_id
      *
      * @throws NotFoundHttpException
-     * @FOSRest\View(statusCode=204)
-     * @FOSRest\Delete("/users/{user_id}/articles/{article_id}.{_format}", requirements = {"user_id": "\d+", "article_id": "\d+", "_format": "json|xml" }, defaults = {"_format": "json"})
+     * @FOSRest\View(statusCode = 204)
+     * @FOSRest\Delete(
+     *     "/users/{user_id}/articles/{article_id}.{_format}",
+     *     name = "api_users_articles_delete",
+     *     requirements = {
+     *         "user_id" : "\d+",
+     *         "article_id" : "\d+",
+     *         "_format" : "json|xml"
+     *     },
+     *     defaults = {"_format": "json"}
+     * )
      * @Nelmio\ApiDoc(
      *     statusCodes = {
      *         Response::HTTP_NO_CONTENT: "No Content",
@@ -286,7 +348,7 @@ class ArticleRestController extends FOSRestController
 
             // Redirect to the URI of the resource.
             $response->headers->set('Location',
-                $this->generateUrl('api_article_getarticle', [
+                $this->generateUrl('api_users_articles_get', [
                     'user_id' => $article->getUser()->getId(),
                     'article_id' => $article->getId(),
                 ], /* absolute path = */true)

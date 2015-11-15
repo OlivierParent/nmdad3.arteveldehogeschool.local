@@ -27,13 +27,9 @@
         };
 
         var actions = {
-            //'update': {
-            //    interceptor: {
-            //        response: GoalResponseInterceptorFactory
-            //    },
-            //    isArray: false,
-            //    method: 'PUT',
-            //    transformResponse: GenericResponseTransformerFactory
+            //'query' : {
+            //    method : 'GET',
+            //    isArray: false
             //}
         };
 

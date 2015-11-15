@@ -55,7 +55,6 @@
             $log.log('getUserArticlesSuccess:', response);
         }
 
-
     }
 
 })();

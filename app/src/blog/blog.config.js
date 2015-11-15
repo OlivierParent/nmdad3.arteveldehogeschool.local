@@ -24,6 +24,11 @@
                 controller: 'BlogCtrl as vm',
                 templateUrl: 'templates/blog/blog.view.html',
                 url: '/blog'
+            })
+            .state('article-new', {
+                controller: 'ArticleCtrl as vm',
+                templateUrl: 'templates/blog/article-new.view.html',
+                url: '/blog/article/new'
             });
     }
 
