@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Article;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +19,12 @@ class NewType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
+            ->add('categories', 'entity', [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'expanded' =>  false,
+                'multiple' => true,
+            ]);
         ;
     }
 

@@ -19,8 +19,16 @@
 
 {%- block article %}
     <p>{{ post.body }}</p>
+    {{ block('categories') }}
 {%- endblock article -%}
 
 {%- block image %}
     <img src="{{ post.uri }}" alt="{{ post.title }}" style="max-width: 100%">
+    {{ block('categories') }}
 {%- endblock image -%}
+
+{%- block categories %}
+    {% for category in post.categories %}
+    <span class="label label-info">{{ category.name }}</span>
+    {% endfor %}
+{%- endblock categories -%}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Image;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,6 +19,12 @@ class NewType extends AbstractType
         $builder
             ->add('title')
             ->add('file')
+            ->add('categories', 'entity', [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'expanded' =>  false,
+                'multiple' => true,
+            ]);
         ;
     }
 
