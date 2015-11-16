@@ -28,7 +28,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function getOrder()
     {
-        return 1; // The order in which fixture(s) will be loaded.
+        return 2; // The order in which fixture(s) will be loaded.
     }
 
     /**

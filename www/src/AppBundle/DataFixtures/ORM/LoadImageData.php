@@ -23,7 +23,7 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 3; // The order in which fixture(s) will be loaded.
+        return 4; // The order in which fixture(s) will be loaded.
     }
 
     /**

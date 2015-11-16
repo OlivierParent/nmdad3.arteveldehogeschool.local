@@ -74,6 +74,7 @@ class Category
      */
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
         $this->setChildren(new ArrayCollection());
         $this->setPosts(new ArrayCollection());
     }
