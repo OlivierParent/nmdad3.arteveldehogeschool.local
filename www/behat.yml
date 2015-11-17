@@ -1,0 +1,17 @@
+default:
+    translation:
+        locale: en
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            base_url: 'http://www.nmdad3.arteveldehogeschool.local'
+            sessions:
+                default:
+                    symfony2: ~
+    suites:
+        app_features:
+            type: symfony_bundle
+            bundle: AppBundle
+            contexts:
+                - AppBundle\Features\Context\FeatureContext
+                - Behat\MinkExtension\Context\MinkContext
