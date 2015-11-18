@@ -133,7 +133,7 @@
 
         vm.data = {
             article: {}
-        }
+        };
 
         vm.article = {};
 
