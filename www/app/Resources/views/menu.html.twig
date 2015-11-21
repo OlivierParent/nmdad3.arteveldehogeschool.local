@@ -1,14 +1,15 @@
+{% set _route = app.request.attributes.get('_route') %}
 <nav class="navbar navbar-static-top navbar-dark bg-inverse">
     <a class="navbar-brand" href="{{ path('homepage') }}">ArteBlog</a>
     <ul class="nav navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home</a>
+        <li class="nav-item{% if _route == 'homepage' %} active{% endif %}">
+            <a class="nav-link" href="{{ path('homepage') }}">Home</a>
         </li>
         {% if is_granted('ROLE_USER') %}
-        <li class="nav-item">
+        <li class="nav-item{% if _route == 'articles_new' %} active{% endif %}">
             <a class="nav-link" href="{{ path('articles_new') }}">Article</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item{% if _route == 'images_new' %} active{% endif %}">
             <a class="nav-link" href="{{ path('images_new') }}">Image</a>
         </li>
         {% endif %}
@@ -19,10 +20,10 @@
             <a class="nav-link" href="{{ path('security_logout') }}">Logout</a>
         </li>
         {% else %}
-        <li class="nav-item">
+        <li class="nav-item{% if _route == 'security_login' %} active{% endif %}">
             <a class="nav-link" href="{{ path('security_login') }}">Login</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item{% if _route == 'users_new' %} active{% endif %}">
             <a class="nav-link" href="{{ path('users_new') }}">Register</a>
         </li>
         {% endif %}

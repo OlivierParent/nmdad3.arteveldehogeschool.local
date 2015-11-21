@@ -1,6 +1,6 @@
 {% set version = {
     'bootstrap': '4.0.0-alpha',
-    'jQuery'   : ''
+    'jQuery'   : '2.1.4'
 } %}<!DOCTYPE html>
 <html lang="nl">
     <head>
@@ -16,6 +16,7 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+        <script src="//code.jquery.com/jquery-{{ version.jQuery }}.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/{{ version.bootstrap }}/js/bootstrap.min.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
