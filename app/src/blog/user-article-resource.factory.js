@@ -3,7 +3,8 @@
  * @copyright Copyright © 2014-2015 Artevelde University College Ghent
  * @license   Apache License, Version 2.0
  */
-;(function () { 'use strict';
+;(function () {
+    'use strict';
 
     angular.module('app.blog')
         .factory('UserArticleResourceFactory', UserArticleResourceFactory);
