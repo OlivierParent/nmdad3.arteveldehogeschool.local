@@ -25,7 +25,7 @@ class Article extends PostAbstract
     /**
      * @var string
      *
-     * Assert\NotBlank()
+     * @Assert\NotBlank()
      * @ORM\Column(name="body", type="text")
      */
     protected $body;

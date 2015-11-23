@@ -463,6 +463,21 @@
         var vm = this;
 
         vm.title = 'Home';
+
+        vm.links = [
+            {
+                'href' : '/blog',
+                'label': 'Blog Demo'
+            },
+            {
+                'href' : '/camera',
+                'label': 'Camera Demo'
+            },
+            {
+                'href' : '/database',
+                'label': 'Database Demo'
+            }
+        ];
     }
 
 })();

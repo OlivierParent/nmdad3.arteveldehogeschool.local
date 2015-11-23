@@ -6,29 +6,24 @@ use ApiBundle\Form\ArticleType;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\FOSRestController as Controller;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation as Nelmio;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class UserArticleRestController.
- *
- * @Route("/v1")
+ * Class ArticlesController.
  */
-class UserArticleRestController extends FOSRestController
+class ArticlesController extends Controller
 {
     /**
      * Test API options and requirements.
      *
-     * @FOSRest\Options(
-     *     "/users/{user_id}/articles/",
-     *     name = "api_users_articles_options"
-     * )
+     * @return Response
+     *
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
@@ -36,13 +31,8 @@ class UserArticleRestController extends FOSRestController
      *     }
      * )
      */
-    public function optionsAction()
+    public function optionsArticlesAction()
     {
-        # HTTP method: OPTIONS
-        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
-        #
-        # Path       : /app_dev.php/api/v1/users/1/articles/
-
         $response = new Response();
         $response->headers->set('Allow', 'OPTIONS, GET, POST, PUT');
 
@@ -52,19 +42,15 @@ class UserArticleRestController extends FOSRestController
     /**
      * Returns all articles.
      *
-     * @param $user_id
      * @param ParamFetcher $paramFetcher
+     * @param $user_id
      *
      * @return mixed
+     *
      * @FOSRest\View()
      * @FOSRest\Get(
-     *     "/users/{user_id}/articles.{_format}",
-     *     name = "api_users_articles_get_all",
      *     requirements = {
      *         "_format" : "json|jsonp|xml"
-     *     },
-     *     defaults = {
-     *         "_format" : "json"
      *     }
      * )
      * @FOSRest\QueryParam(
@@ -86,7 +72,7 @@ class UserArticleRestController extends FOSRestController
      *     }
      * )
      */
-    public function getAllAction($user_id, ParamFetcher $paramFetcher)
+    public function getArticlesAction(ParamFetcher $paramFetcher, $user_id)
     {
         # HTTP method: GET
         # Host/port  : http://www.nmdad3.arteveldehogeschool.local
@@ -131,14 +117,9 @@ class UserArticleRestController extends FOSRestController
      * @return object
      *
      * @FOSRest\Get(
-     *     "/users/{user_id}/articles/{article_id}.{_format}",
-     *     name = "api_users_articles_get",
      *     requirements = {
      *         "article_id" : "\d+",
      *         "_format" : "json|xml"
-     *     },
-     *     defaults = {
-     *         "_format": "json"
      *     }
      * )
      * @Nelmio\ApiDoc(
@@ -185,25 +166,19 @@ class UserArticleRestController extends FOSRestController
      * @FOSRest\View()
      * @FOSRest\Post(
      *     "/users/{user_id}/articles/",
-     *     name = "api_users_articles_post",
      *     requirements = {
      *         "user_id" : "\d+"
      *     }
      * )
      * @Nelmio\ApiDoc(
-     *     input = "Artevelde\ApiBundle\Form\ArticleType",
+     *     input = "AppBundle\Form\ArticleType",
      *     statusCodes = {
      *         Response::HTTP_CREATED : "Created"
      *     }
      * )
      */
-    public function postAction(Request $request, $user_id)
+    public function postArticleAction(Request $request, $user_id)
     {
-        # HTTP method: POST
-        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
-        #
-        # Path       : /app_dev.php/api/v1/users/1/articles/
-
         $em = $this->getDoctrine()->getManager();
 
         $user = $em
@@ -233,31 +208,21 @@ class UserArticleRestController extends FOSRestController
      *
      * @FOSRest\View()
      * @FOSRest\Put(
-     *     "/users/{user_id}/articles/{article_id}.{_format}",
-     *     name = "api_users_articles_put",
      *     requirements = {
      *         "user_id" : "\d+",
      *         "article_id" : "\d+",
      *         "_format" : "json|xml"
-     *     },
-     *     defaults = {
-     *         "_format": "json"
      *     }
      * )
      * @Nelmio\ApiDoc(
-     *     input = "Artevelde\ApiBundle\Form\ArticleType",
+     *     input = "AppBundle\Form\ArticleType",
      *     statusCodes = {
      *         Response::HTTP_NO_CONTENT: "No Content"
      *     }
      * )
      */
-    public function putAction(Request $request, $user_id, $article_id)
+    public function putArticleAction(Request $request, $user_id, $article_id)
     {
-        # HTTP method: PUT
-        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
-        #
-        # Path       : /app_dev.php/api/v1/users/1/articles/1
-
         $em = $this->getDoctrine()->getManager();
         $article = $em
             ->getRepository('AppBundle:Article')
@@ -281,8 +246,6 @@ class UserArticleRestController extends FOSRestController
      * @throws NotFoundHttpException
      * @FOSRest\View(statusCode = 204)
      * @FOSRest\Delete(
-     *     "/users/{user_id}/articles/{article_id}.{_format}",
-     *     name = "api_users_articles_delete",
      *     requirements = {
      *         "user_id" : "\d+",
      *         "article_id" : "\d+",
@@ -297,13 +260,8 @@ class UserArticleRestController extends FOSRestController
      *     }
      * )
      */
-    public function deleteAction($user_id, $article_id)
+    public function deleteArticleAction($user_id, $article_id)
     {
-        # HTTP method: DELETE
-        # Host/port  : http://www.nmdad3.arteveldehogeschool.local
-        #
-        # Path       : /app_dev.php/api/v1/users/1/articles/1
-
         $em = $this->getDoctrine()->getManager();
 
         $article = $em
@@ -348,7 +306,7 @@ class UserArticleRestController extends FOSRestController
 
             // Redirect to the URI of the resource.
             $response->headers->set('Location',
-                $this->generateUrl('api_users_articles_get', [
+                $this->generateUrl('api_v1_get_user_article', [
                     'user_id' => $article->getUser()->getId(),
                     'article_id' => $article->getId(),
                 ], /* absolute path = */true)
@@ -359,4 +317,5 @@ class UserArticleRestController extends FOSRestController
 
         return View::create($form, Response::HTTP_BAD_REQUEST);
     }
+
 }

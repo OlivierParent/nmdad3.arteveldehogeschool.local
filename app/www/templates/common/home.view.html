@@ -1,15 +1,5 @@
 <ion-view title="{{ vm.title }}">
     <ion-content>
-        <ion-list>
-            <ion-item>
-                <a class="button icon icon-right ion-chevron-right" href="#/blog">Blog Demo</a>
-            </ion-item>
-            <ion-item>
-                <a class="button icon icon-right ion-chevron-right" href="#/camera">Camera Demo</a>    
-            </ion-item>
-            <ion-item>
-                <a class="button icon icon-right ion-chevron-right" href="#/database">Database Demo</a>    
-            </ion-item>
-        </ion-list>
+        <a ng-repeat="link in vm.links" class="button button-full icon icon-right ion-chevron-right" href="#{{ link.href }}">{{ link.label }}</a>
     </ion-content>
 </ion-view>

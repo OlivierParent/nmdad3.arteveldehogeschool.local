@@ -42,8 +42,11 @@ abstract class PostAbstract
     /**
      * @var string
      *
-     * Assert\NotBlank()
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min =   3,
+     *     max = 255
+     * )
      * @ORM\Column(name="title", type="string", length=255)
      * @JMS\Expose()
      */
@@ -83,11 +86,11 @@ abstract class PostAbstract
     /**
      * @var User
      *
-     * @Assert\NotBlank()
      *
      * Many-to-one relationship with User inversed by User::$posts.
      * Further reading: http://docs.doctrine-project.org/en/latest/reference/association-mapping.html#one-to-many-bidirectional
      *
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */

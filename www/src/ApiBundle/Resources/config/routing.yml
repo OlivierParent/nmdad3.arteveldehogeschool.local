@@ -1,0 +1,9 @@
+v1:
+    name_prefix:  api_v1_
+    prefix:       /v1
+    resource:     "@ApiBundle/Resources/config/routing-v1.yml"
+    type:         rest
+
+nelmio_api_doc:
+    prefix:   /doc
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"

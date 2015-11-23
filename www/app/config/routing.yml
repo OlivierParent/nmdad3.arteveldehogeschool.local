@@ -2,12 +2,12 @@
 # ========
 
 security_login_check:
-    methods: POST
-    path: /security/login_check
+    methods:  POST
+    path:     /security/login_check
 
 security_logout:
-    methods: GET
-    path: /security/logout
+    methods:  GET
+    path:     /security/logout
 
 # Bundles
 # =======
@@ -16,13 +16,9 @@ security_logout:
 # ---------------------------------
 
 api:
-    resource: "@ApiBundle/Controller/"
-    type:     annotation
     prefix:   /api
-
-nelmio_api_doc:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+    resource: "@ApiBundle/Resources/config/routing.yml"
+    type:     rest
 
 # Application
 # -----------
@@ -30,4 +26,3 @@ nelmio_api_doc:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
-

@@ -1,0 +1,8 @@
+users:
+    resource: ApiBundle\Controller\UsersController
+    type:     rest
+
+articles:
+    parent:   users
+    resource: ApiBundle\Controller\ArticlesController
+    type:     rest

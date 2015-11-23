@@ -123,7 +123,7 @@ class User implements AdvancedUserInterface, Serializable
      *
      * @Assert\NotBlank()
      * @Assert\Length(
-     *     min = 8,
+     *     min =   8,
      *     max = 255
      * )
      * @ORM\Column(name="username", type="string", length=255, unique=true)
