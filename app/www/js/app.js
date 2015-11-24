@@ -106,19 +106,20 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     ArticleCtrl.$inject = [
         // Angular
-        '$location',
         '$log',
+        '$state',
         // Custom
         'UserArticleResourceFactory'
     ];
 
     function ArticleCtrl(
         // Angular
-        $location,
         $log,
+        $state,
         // Custom
         UserArticleResourceFactory // ResourceFactory
     ) {
+
         // ViewModel
         // =========
         var vm = this;
@@ -130,18 +131,35 @@
                 body: 'Body text'
             }
         };
-
         vm.data = {
             article: {}
         };
-
         vm.article = {};
 
-        vm.post = postUserArticles;
+        console.log($state.current.name);
+        switch ($state.current.name) {
+            case 'blog_article_edit':
+                editArticle();
+                break;
+            case 'blog_article_new':
+                newArticle();
+                break;
+            default:
+                break;
+        }
 
         // Functions
         // =========
-        function postUserArticles() {
+
+        // New Article
+        // -----------
+
+        function newArticle() {
+            console.info("newArticle");
+            vm.post = postArticle;
+        }
+
+        function postArticle() {
 
             $log.info(vm.article);
 
@@ -157,19 +175,82 @@
                 .save(
                     params,
                     postData,
-                    postUserArticlesSuccess,
-                    postUserArticlesError
+                    postArticleSuccess,
+                    postArticleError
                 );
 
         }
 
-        function postUserArticlesError(reason) {
-            $log.error('postUserArticlesError:', reason);
+        function postArticleError(reason) {
+            $log.error('postArticleError:', reason);
         }
 
-        function postUserArticlesSuccess(response) {
-            $log.log('postUserArticlesSuccess:', response);
-            $location.path('/blog');
+        function postArticleSuccess(response) {
+            $log.log('postArticleSuccess:', response);
+            $state.go('blog');
+        }
+
+        // Edit Article
+        // ------------
+
+        function editArticle() {
+            console.info("editArticle", $state.params.article_id);
+
+            vm.article = getArticle();
+
+            vm.put = putArticle;
+        }
+
+        function getArticle() {
+            var params = {
+                user_id: 2,
+                article_id: $state.params.article_id
+            };
+            return UserArticleResourceFactory
+                .get(
+                    params,
+                    getArticleSuccess,
+                    getArticleError
+                );
+        }
+
+        function getArticleError(reason) {
+            $log.error('getArticleError:', reason);
+        }
+
+        function getArticleSuccess(response) {
+            $log.log('getArticleSuccess:', response);
+        }
+
+        function putArticle() {
+
+            $log.info(vm.article);
+
+            var params = {
+                    user_id: 2,
+                    article_id: $state.params.article_id,
+                    format: 'json'
+                },
+                putData = {
+                    article: vm.article
+                };
+
+            UserArticleResourceFactory
+                .update(
+                    params,
+                    putData,
+                    putArticleSuccess,
+                    putArticleError
+                );
+        }
+
+        function putArticleError(reason) {
+            $log.error('putArticleError:', reason);
+        }
+
+        function putArticleSuccess(response) {
+            $log.log('putArticleSuccess:', response);
+            $state.go('blog');
         }
 
     }
@@ -203,7 +284,12 @@
                 templateUrl: 'templates/blog/blog.view.html',
                 url: '/blog'
             })
-            .state('article-new', {
+            .state('blog_article_edit', {
+                controller: 'ArticleCtrl as vm',
+                templateUrl: 'templates/blog/article-edit.view.html',
+                url: '/blog/article/:article_id/edit'
+            })
+            .state('blog_article_new', {
                 controller: 'ArticleCtrl as vm',
                 templateUrl: 'templates/blog/article-new.view.html',
                 url: '/blog/article/new'
@@ -226,6 +312,7 @@
     BlogCtrl.$inject = [
         // Angular
         '$log',
+        '$state',
         // Custom
         'UserArticleResourceFactory'
     ];
@@ -233,6 +320,7 @@
     function BlogCtrl(
         // Angular
         $log,
+        $state,
         // Custom
         UserArticleResourceFactory // ResourceFactory
     ) {
@@ -241,31 +329,54 @@
         var vm = this;
 
         vm.title = 'Blog Demo';
+        vm.articles = getArticles();
 
-        vm.articles = getUserArticles();
+        vm.delete = deleteArticle;
 
         // Functions
         // =========
-        function getUserArticles() {
-
+        function getArticles() {
             var params = {
                 user_id: 2
             };
-
             return UserArticleResourceFactory
                 .query(
                     params,
-                    getUserArticlesSuccess,
-                    getUserArticlesError
+                    getArticlesSuccess,
+                    getArticlesError
                 );
         }
 
-        function getUserArticlesError(reason) {
-            $log.error('getUserArticlesError:', reason);
+        function getArticlesError(reason) {
+            $log.error('getArticlesError:', reason);
         }
 
-        function getUserArticlesSuccess(response) {
-            $log.log('getUserArticlesSuccess:', response);
+        function getArticlesSuccess(response) {
+            $log.log('getArticlesSuccess:', response);
+        }
+
+        function deleteArticle(article) {
+            $log.info("deleteArticle", article);
+
+            var params = {
+                user_id: 2,
+                article_id: article.id
+            };
+
+            return UserArticleResourceFactory
+                .delete(
+                    params,
+                    deleteArticleSuccess,
+                    deleteArticleError
+                );
+        }
+
+        function deleteArticleError(reason) {
+            $log.error('deleteArticleError:', reason);
+        }
+
+        function deleteArticleSuccess(response) {
+            $log.log('deleteArticleSuccess:', response);
         }
 
     }
@@ -277,7 +388,8 @@
  * @copyright Copyright © 2014-2015 Artevelde University College Ghent
  * @license   Apache License, Version 2.0
  */
-;(function () { 'use strict';
+;(function () {
+    'use strict';
 
     angular.module('app.blog')
         .factory('UserArticleResourceFactory', UserArticleResourceFactory);
@@ -304,7 +416,10 @@
             //'query' : {
             //    method : 'GET',
             //    isArray: false
-            //}
+            //},
+            'update': {
+                method:'PUT'
+            }
         };
 
         return $resource(url, paramDefaults, actions);

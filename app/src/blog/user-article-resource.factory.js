@@ -31,7 +31,10 @@
             //'query' : {
             //    method : 'GET',
             //    isArray: false
-            //}
+            //},
+            'update': {
+                method:'PUT'
+            }
         };
 
         return $resource(url, paramDefaults, actions);

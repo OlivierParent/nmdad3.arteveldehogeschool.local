@@ -1,9 +1,13 @@
 <ion-view title="{{ vm.title }}">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="article in vm.articles">
-                {{ article.id }} {{ article.title }}
+            <ion-item ng-repeat="article in vm.articles" data-id="{{ article.id }}">
+                 {{ article.title }}
                 <p>{{ article.body }}</p>
+                <div class="button-bar">
+                    <button class="button button-small button-outline icon ion-trash-a" ng-click="vm.delete(article)"></button>
+                    <a class="button button-small button-outline icon ion-edit" href="#/blog/article/{{ article.id }}/edit"></a>
+                </div>
             </ion-item>
         </ion-list>
         <div class="padding">

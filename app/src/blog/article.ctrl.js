@@ -12,19 +12,20 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     ArticleCtrl.$inject = [
         // Angular
-        '$location',
         '$log',
+        '$state',
         // Custom
         'UserArticleResourceFactory'
     ];
 
     function ArticleCtrl(
         // Angular
-        $location,
         $log,
+        $state,
         // Custom
         UserArticleResourceFactory // ResourceFactory
     ) {
+
         // ViewModel
         // =========
         var vm = this;
@@ -36,18 +37,35 @@
                 body: 'Body text'
             }
         };
-
         vm.data = {
             article: {}
         };
-
         vm.article = {};
 
-        vm.post = postUserArticles;
+        console.log($state.current.name);
+        switch ($state.current.name) {
+            case 'blog_article_edit':
+                editArticle();
+                break;
+            case 'blog_article_new':
+                newArticle();
+                break;
+            default:
+                break;
+        }
 
         // Functions
         // =========
-        function postUserArticles() {
+
+        // New Article
+        // -----------
+
+        function newArticle() {
+            console.info("newArticle");
+            vm.post = postArticle;
+        }
+
+        function postArticle() {
 
             $log.info(vm.article);
 
@@ -63,19 +81,82 @@
                 .save(
                     params,
                     postData,
-                    postUserArticlesSuccess,
-                    postUserArticlesError
+                    postArticleSuccess,
+                    postArticleError
                 );
 
         }
 
-        function postUserArticlesError(reason) {
-            $log.error('postUserArticlesError:', reason);
+        function postArticleError(reason) {
+            $log.error('postArticleError:', reason);
         }
 
-        function postUserArticlesSuccess(response) {
-            $log.log('postUserArticlesSuccess:', response);
-            $location.path('/blog');
+        function postArticleSuccess(response) {
+            $log.log('postArticleSuccess:', response);
+            $state.go('blog');
+        }
+
+        // Edit Article
+        // ------------
+
+        function editArticle() {
+            console.info("editArticle", $state.params.article_id);
+
+            vm.article = getArticle();
+
+            vm.put = putArticle;
+        }
+
+        function getArticle() {
+            var params = {
+                user_id: 2,
+                article_id: $state.params.article_id
+            };
+            return UserArticleResourceFactory
+                .get(
+                    params,
+                    getArticleSuccess,
+                    getArticleError
+                );
+        }
+
+        function getArticleError(reason) {
+            $log.error('getArticleError:', reason);
+        }
+
+        function getArticleSuccess(response) {
+            $log.log('getArticleSuccess:', response);
+        }
+
+        function putArticle() {
+
+            $log.info(vm.article);
+
+            var params = {
+                    user_id: 2,
+                    article_id: $state.params.article_id,
+                    format: 'json'
+                },
+                putData = {
+                    article: vm.article
+                };
+
+            UserArticleResourceFactory
+                .update(
+                    params,
+                    putData,
+                    putArticleSuccess,
+                    putArticleError
+                );
+        }
+
+        function putArticleError(reason) {
+            $log.error('putArticleError:', reason);
+        }
+
+        function putArticleSuccess(response) {
+            $log.log('putArticleSuccess:', response);
+            $state.go('blog');
         }
 
     }

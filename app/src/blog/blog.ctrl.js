@@ -13,6 +13,7 @@
     BlogCtrl.$inject = [
         // Angular
         '$log',
+        '$state',
         // Custom
         'UserArticleResourceFactory'
     ];
@@ -20,6 +21,7 @@
     function BlogCtrl(
         // Angular
         $log,
+        $state,
         // Custom
         UserArticleResourceFactory // ResourceFactory
     ) {
@@ -28,31 +30,54 @@
         var vm = this;
 
         vm.title = 'Blog Demo';
+        vm.articles = getArticles();
 
-        vm.articles = getUserArticles();
+        vm.delete = deleteArticle;
 
         // Functions
         // =========
-        function getUserArticles() {
-
+        function getArticles() {
             var params = {
                 user_id: 2
             };
-
             return UserArticleResourceFactory
                 .query(
                     params,
-                    getUserArticlesSuccess,
-                    getUserArticlesError
+                    getArticlesSuccess,
+                    getArticlesError
                 );
         }
 
-        function getUserArticlesError(reason) {
-            $log.error('getUserArticlesError:', reason);
+        function getArticlesError(reason) {
+            $log.error('getArticlesError:', reason);
         }
 
-        function getUserArticlesSuccess(response) {
-            $log.log('getUserArticlesSuccess:', response);
+        function getArticlesSuccess(response) {
+            $log.log('getArticlesSuccess:', response);
+        }
+
+        function deleteArticle(article) {
+            $log.info("deleteArticle", article);
+
+            var params = {
+                user_id: 2,
+                article_id: article.id
+            };
+
+            return UserArticleResourceFactory
+                .delete(
+                    params,
+                    deleteArticleSuccess,
+                    deleteArticleError
+                );
+        }
+
+        function deleteArticleError(reason) {
+            $log.error('deleteArticleError:', reason);
+        }
+
+        function deleteArticleSuccess(response) {
+            $log.log('deleteArticleSuccess:', response);
         }
 
     }

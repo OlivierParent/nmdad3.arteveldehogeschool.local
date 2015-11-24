@@ -25,7 +25,12 @@
                 templateUrl: 'templates/blog/blog.view.html',
                 url: '/blog'
             })
-            .state('article-new', {
+            .state('blog_article_edit', {
+                controller: 'ArticleCtrl as vm',
+                templateUrl: 'templates/blog/article-edit.view.html',
+                url: '/blog/article/:article_id/edit'
+            })
+            .state('blog_article_new', {
                 controller: 'ArticleCtrl as vm',
                 templateUrl: 'templates/blog/article-new.view.html',
                 url: '/blog/article/new'
