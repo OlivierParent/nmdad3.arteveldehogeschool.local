@@ -21,6 +21,7 @@
     ) {
         $stateProvider
             .state('blog', {
+                cache: false, // false will reload on every visit.
                 controller: 'BlogCtrl as vm',
                 templateUrl: 'templates/blog/blog.view.html',
                 url: '/blog'

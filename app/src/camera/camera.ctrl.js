@@ -32,7 +32,7 @@
         var vm = this;
 
         vm.getPhoto = getPhoto;
-        vm.lastPhoto = 'no photo';
+        vm.lastPhoto = null;
         vm.title = 'Camera Demo';
 
         // Functions

@@ -280,6 +280,7 @@
     ) {
         $stateProvider
             .state('blog', {
+                cache: false, // false will reload on every visit.
                 controller: 'BlogCtrl as vm',
                 templateUrl: 'templates/blog/blog.view.html',
                 url: '/blog'
@@ -491,7 +492,7 @@
         var vm = this;
 
         vm.getPhoto = getPhoto;
-        vm.lastPhoto = 'no photo';
+        vm.lastPhoto = null;
         vm.title = 'Camera Demo';
 
         // Functions
@@ -652,19 +653,27 @@
         // ngCordova
         $cordovaSQLite
     ) {
-        // Database
-        var db = $cordovaSQLite.openDB({ name: "nmdad3.db" });
-        // https://blog.nraboy.com/2014/11/use-sqlite-instead-local-storage-ionic-framework/
-        
-        
         // ViewModel
         // =========
         var vm = this;
 
         vm.title = 'Database Demo';
-        
-        testDatabase();
-        
+        vm.support = {
+            error  : false,
+            no     : false,
+            success: false
+        };
+
+        // Databaseå
+        try {
+            var db = $cordovaSQLite.openDB({ name: "nmdad3.db" });
+            // https://blog.nraboy.com/2014/11/use-sqlite-instead-local-storage-ionic-framework/
+            testDatabase();
+        } catch (err) {
+            $log.error(err);
+            vm.support.no = true;
+        }
+
         // Functions
         // =========
         function testDatabase() {
@@ -677,10 +686,12 @@
         
         function databaseSuccess(res) {
             $log.info("insertId: " + res.insertId);
+            vm.support.success = true;
         }
         
         function databaseError(err) {
             $log.error(err);
+            vm.support.error = true;
         }
     }
 

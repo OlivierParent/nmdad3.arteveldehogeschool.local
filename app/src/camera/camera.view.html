@@ -1,7 +1,11 @@
 <ion-view title="{{ vm.title }}">
     <ion-content>
-        <button ng-click="vm.getPhoto()" class="button button-block button-primary">Take Photo</button>
-           <img ng-src="{{ vm.lastPhoto }}" style="max-width: 100%">
-           photo: <code>{{ vm.lastPhotoMessage }}</code>
+        <div class="padding">
+            <button ng-click="vm.getPhoto()" class="button button-block button-primary"><i class="ion-camera"></i> Take Photo</button>
+            <div ng-show="vm.lastPhoto !== null">
+                <img ng-src="{{ vm.lastPhoto }}" style="max-width: 100%">
+                photo: <code>{{ vm.lastPhotoMessage }}</code>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

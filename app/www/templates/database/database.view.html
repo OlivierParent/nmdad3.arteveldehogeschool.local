@@ -1,5 +1,15 @@
 <ion-view title="{{ vm.title }}">
     <ion-content>
-        
+        <div class="card">
+            <div class="item item-text-wrap" ng-show="vm.support.no">
+                <i class="ion-close-circled"></i> SQLite is not supported by this system.
+            </div>
+            <div class="item item-text-wrap" ng-show="vm.support.success">
+                <i class="ion-checkmark-circled"></i> SQLite was tested successfully.
+            </div>
+            <div class="item item-text-wrap" ng-show="vm.support.error">
+                <i class="ion-alert-circled"></i> SQLite is supported, but the test resulted in an error.
+            </div>
+        </div>
     </ion-content>
 </ion-view>
