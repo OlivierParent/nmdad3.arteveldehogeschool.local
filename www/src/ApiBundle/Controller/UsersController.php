@@ -38,6 +38,13 @@ class UsersController extends Controller
     /**
      * @param $user_id
      * @return mixed
+     *
+     * @Nelmio\ApiDoc(
+     *     resource = true,
+     *     statusCodes = {
+     *         Response::HTTP_OK: "OK"
+     *     }
+     * )
      */
     public function getUserAction($user_id)
     {
@@ -45,6 +52,29 @@ class UsersController extends Controller
         $user = $em
             ->getRepository('AppBundle:User')
             ->find($user_id);
+
+        if (!$user instanceof User) {
+            throw new NotFoundHttpException('Not found');
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return mixed
+     * @Nelmio\ApiDoc(
+     *     resource = true,
+     *     statusCodes = {
+     *         Response::HTTP_OK: "OK"
+     *     }
+     * )
+     */
+    public function getUsersAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em
+            ->getRepository('AppBundle:User')
+            ->findAll();
 
         if (!$user instanceof User) {
             throw new NotFoundHttpException('Not found');

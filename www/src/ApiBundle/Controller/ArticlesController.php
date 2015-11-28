@@ -171,7 +171,7 @@ class ArticlesController extends Controller
      *     }
      * )
      * @Nelmio\ApiDoc(
-     *     input = "AppBundle\Form\ArticleType",
+     *     input = "ApiBundle\Form\ArticleType",
      *     statusCodes = {
      *         Response::HTTP_CREATED : "Created"
      *     }
