@@ -249,7 +249,11 @@
                     format: 'json'
                 },
                 putData = {
-                    article: vm.article
+                    article: {
+                        id: $state.params.article_id,
+                        title: vm.article.title,
+                        body: vm.article.body,
+                    }
                 };
 
             UserArticleResourceFactory
@@ -385,7 +389,7 @@
         }
 
         function deleteArticle(article) {
-            $log.info("deleteArticle", article);
+            $log.info('deleteArticle', article);
 
             var params = {
                 user_id: 2,

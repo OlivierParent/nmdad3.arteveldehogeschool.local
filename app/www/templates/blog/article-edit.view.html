@@ -1,0 +1,17 @@
+<ion-view title="{{ vm.title }}">
+    <ion-content>
+        <div class="list">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">{{ vm.form.article.title }}</span>
+                <input ng-model="vm.article.title" type="text" placeholder="{{ vm.form.article.title }}">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">{{ vm.form.article.body }}</span>
+                <textarea ng-model="vm.article.body" rows="10" placeholder="{{ vm.form.article.body }}"></textarea>
+            </label>
+        </div>
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="vm.put()">Update</button>
+        </div>
+    </ion-content>
+</ion-view>

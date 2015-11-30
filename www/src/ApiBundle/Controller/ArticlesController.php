@@ -118,15 +118,16 @@ class ArticlesController extends Controller
      *
      * @FOSRest\Get(
      *     requirements = {
-     *         "article_id" : "\d+",
-     *         "_format" : "json|xml"
+     *         "user_id"   : "\d+",
+     *         "article_id": "\d+",
+     *         "_format"   : "json|xml"
      *     }
      * )
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         Response::HTTP_OK : "OK",
-     *         Response::HTTP_NO_CONTENT : "No Content",
+     *         Response::HTTP_OK        : "OK",
+     *         Response::HTTP_NO_CONTENT: "No Content",
      *         Response::HTTP_NOT_FOUND : "Not Found"
      *     }
      * )
@@ -167,7 +168,7 @@ class ArticlesController extends Controller
      * @FOSRest\Post(
      *     "/users/{user_id}/articles/",
      *     requirements = {
-     *         "user_id" : "\d+"
+     *         "user_id": "\d+"
      *     }
      * )
      * @Nelmio\ApiDoc(
@@ -247,9 +248,9 @@ class ArticlesController extends Controller
      * @FOSRest\View(statusCode = 204)
      * @FOSRest\Delete(
      *     requirements = {
-     *         "user_id" : "\d+",
-     *         "article_id" : "\d+",
-     *         "_format" : "json|xml"
+     *         "user_id"   : "\d+",
+     *         "article_id": "\d+",
+     *         "_format"   : "json|xml"
      *     },
      *     defaults = {"_format": "json"}
      * )

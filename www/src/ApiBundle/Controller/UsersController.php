@@ -82,4 +82,41 @@ class UsersController extends Controller
 
         return $user;
     }
+    
+    /**
+     * Delete a User.
+     *
+     * @param $user_id
+     *
+     * @throws NotFoundHttpException
+     * @FOSRest\View(statusCode = 204)
+     * @FOSRest\Delete(
+     *     requirements = {
+     *         "user_id"   : "\d+",
+     *         "_format"   : "json|xml"
+     *     },
+     *     defaults = {"_format": "json"}
+     * )
+     * @Nelmio\ApiDoc(
+     *     statusCodes = {
+     *         Response::HTTP_NO_CONTENT: "No Content",
+     *         Response::HTTP_NOT_FOUND : "Not Found"
+     *     }
+     * )
+     */
+    public function deleteUserAction($user_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em
+            ->getRepository('AppBundle:User')
+            ->find($user_id);
+
+        if (!$user instanceof User) {
+            throw new NotFoundHttpException();
+        }
+        
+        $em->remove($user);
+        $em->flush();
+    }
 }

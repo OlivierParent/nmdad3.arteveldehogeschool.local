@@ -137,7 +137,11 @@
                     format: 'json'
                 },
                 putData = {
-                    article: vm.article
+                    article: {
+                        id: $state.params.article_id,
+                        title: vm.article.title,
+                        body: vm.article.body,
+                    }
                 };
 
             UserArticleResourceFactory

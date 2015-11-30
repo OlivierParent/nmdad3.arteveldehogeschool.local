@@ -63,7 +63,7 @@
         }
 
         function deleteArticle(article) {
-            $log.info("deleteArticle", article);
+            $log.info('deleteArticle', article);
 
             var params = {
                 user_id: 2,

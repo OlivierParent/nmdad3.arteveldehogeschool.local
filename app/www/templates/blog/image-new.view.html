@@ -1,0 +1,13 @@
+<ion-view title="{{ vm.title }}">
+    <ion-content>
+        <div class="list">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">{{ vm.form.image.title }}</span>
+                <input ng-model="vm.image.title" type="text" placeholder="{{ vm.form.image.title }}">
+            </label>
+        </div>
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="vm.post()">Post</button>
+        </div>
+    </ion-content>
+</ion-view>

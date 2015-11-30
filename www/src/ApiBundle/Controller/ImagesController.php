@@ -118,16 +118,16 @@ class ImagesController extends Controller
      *
      * @FOSRest\Get(
      *     requirements = {
-     *         "image_id" : "\d+",
+     *         "image_id": "\d+",
      *         "_format" : "json|xml"
      *     }
      * )
      * @Nelmio\ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         Response::HTTP_OK : "OK",
+     *         Response::HTTP_OK         : "OK",
      *         Response::HTTP_NO_CONTENT : "No Content",
-     *         Response::HTTP_NOT_FOUND : "Not Found"
+     *         Response::HTTP_NOT_FOUND  : "Not Found"
      *     }
      * )
      */
