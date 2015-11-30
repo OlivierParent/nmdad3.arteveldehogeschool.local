@@ -13,5 +13,14 @@
         <div class="padding">
             <a class="button button-block button-positive button-outline icon icon-right ion-chevron-right" href="#/blog/article/new">New Article</a>
         </div>
+        <ion-list>
+            <ion-item ng-repeat="image in vm.images" data-id="{{ image.id }}">
+                {{ image.title }}
+                <p><img ng-src="{{ image.uri }}" alt="{{ image.title }}"></p>
+            </ion-item>
+        </ion-list>
+        <div class="padding">
+            <a class="button button-block button-positive button-outline icon icon-right ion-chevron-right" href="#/blog/image/new">New Image</a>
+        </div>
     </ion-content>
 </ion-view>

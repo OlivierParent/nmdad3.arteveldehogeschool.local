@@ -1,14 +1,13 @@
 <?php
 
-namespace AppBundle\Form\Image;
+namespace ApiBundle\Form;
 
-use AppBundle\Entity\Category;
 use AppBundle\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewType extends AbstractType
+class ImageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,14 +16,9 @@ class NewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', null, ['required' => false])
             ->add('title')
-            ->add('file')
-            ->add('categories', 'entity', [
-                'class' => Category::class,
-                'choice_label' => 'name',
-                'expanded' =>  false,
-                'multiple' => true,
-            ]);
+//            ->add('uri', null, ['required' => false])
         ;
     }
 
@@ -35,20 +29,22 @@ class NewType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Image::class,
+            'csrf_protection' => false,
             'validation_groups' => [
                 'Default',
-                'Backoffice'
             ],
         ]);
     }
 
     /**
-     * Form name.
+     * JSON object name.
+     *
+     * { image: { … } }
      *
      * @return string
      */
     public function getName()
     {
-        return 'appbundle_image_new';
+        return 'image';
     }
 }

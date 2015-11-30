@@ -13,8 +13,6 @@
     CameraCtrl.$inject = [
         // Angular
         '$log',
-        // Ionic
-        '$ionicPlatform',
         // ngCordova
         '$cordovaCamera'
     ];
@@ -22,8 +20,6 @@
     function CameraCtrl(
         // Angular
         $log,
-        // Ionic
-        $ionicPlatform,
         // ngCordova
         $cordovaCamera
     ) {

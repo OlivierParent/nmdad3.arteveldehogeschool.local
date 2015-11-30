@@ -7,33 +7,33 @@
     'use strict';
 
     angular.module('app.blog')
-        .factory('UserArticleResourceFactory', UserArticleResourceFactory);
+        .factory('UserImageResourceFactory', UserImageResourceFactory);
 
     // Inject dependencies into constructor (needed when JS minification is applied).
-    UserArticleResourceFactory.$inject = [
+    UserImageResourceFactory.$inject = [
         // Angular
         '$resource',
         // Custom
         'UriFactory'
     ];
 
-    function UserArticleResourceFactory(
+    function UserImageResourceFactory(
         // Angular
         $resource,
         // Custom
         UriFactory
     ) {
-        var url = UriFactory.getApi('users/:user_id/articles/:article_id.:format');
+        var url = UriFactory.getApi('users/:user_id/images/:image_id.:format');
 
         var paramDefaults = {
-            user_id   : '@id',
-            article_id: '@id',
-            format    : 'json'
+            user_id : '@id',
+            image_id: '@id',
+            format  : 'json'
         };
 
         var actions = {
-            'update': {
-                method: 'PUT'
+            'file': {
+                method: 'POST'
             }
         };
 

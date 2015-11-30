@@ -15,7 +15,8 @@
         '$log',
         '$state',
         // Custom
-        'UserArticleResourceFactory'
+        'UserArticleResourceFactory',
+        'UserImageResourceFactory'
     ];
 
     function BlogCtrl(
@@ -23,7 +24,8 @@
         $log,
         $state,
         // Custom
-        UserArticleResourceFactory // ResourceFactory
+        UserArticleResourceFactory,
+        UserImageResourceFactory
     ) {
         // ViewModel
         // =========
@@ -31,11 +33,15 @@
 
         vm.title = 'Blog Demo';
         vm.articles = getArticles();
+        vm.images = getImages();
 
         vm.delete = deleteArticle;
 
         // Functions
         // =========
+
+        // Articles
+        // --------
         function getArticles() {
             var params = {
                 user_id: 2
@@ -48,12 +54,12 @@
                 );
         }
 
-        function getArticlesError(reason) {
-            $log.error('getArticlesError:', reason);
+        function getArticlesError(error) {
+            $log.error('getArticlesError:', error);
         }
 
-        function getArticlesSuccess(response) {
-            $log.log('getArticlesSuccess:', response);
+        function getArticlesSuccess(resource, responseHeader) {
+            $log.log('getArticlesSuccess:', resource, responseHeader());
         }
 
         function deleteArticle(article) {
@@ -72,12 +78,34 @@
                 );
         }
 
-        function deleteArticleError(reason) {
-            $log.error('deleteArticleError:', reason);
+        function deleteArticleError(error) {
+            $log.error('deleteArticleError:', error);
         }
 
-        function deleteArticleSuccess(response) {
-            $log.log('deleteArticleSuccess:', response);
+        function deleteArticleSuccess(resource, responseHeader) {
+            $log.log('deleteArticleSuccess:', resource, responseHeader());
+        }
+
+        // Images
+        // ------
+        function getImages() {
+            var params = {
+                user_id: 2
+            };
+            return UserImageResourceFactory
+                .query(
+                    params,
+                    getImagesSuccess,
+                    getImagesError
+                );
+        }
+
+        function getImagesError(error) {
+            $log.error('getImagesError:', error);
+        }
+
+        function getImagesSuccess(resource, responseHeader) {
+            $log.log('getImagesSuccess:', resource, responseHeader());
         }
 
     }

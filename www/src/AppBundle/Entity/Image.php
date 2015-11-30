@@ -26,20 +26,20 @@ class Image extends PostAbstract
     /**
      * @var string
      *
-     * @ORM\Column(name="uri", type="string", length=255)
+     * @ORM\Column(name="uri", type="string", length=255, nullable=true)
      */
-    private $uri;
+    protected $uri;
 
     /**
      * @var UploadedFile
      *
      * http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html
      *
-     * @Assert\NotBlank()
-     * @Assert\File(maxSize="6000000")
-     * @Assert\File(mimeTypes={"image/gif", "image/png", "image/jpeg"})
+     * @Assert\NotBlank(groups={"Backoffice"})
+     * @Assert\File(maxSize="6000000", groups={"Backoffice"})
+     * @Assert\File(mimeTypes={"image/gif", "image/png", "image/jpeg"}, groups={"Backoffice"})
      */
-    private $file;
+    protected $file;
 
     /**
      * Get id.

@@ -35,6 +35,11 @@
                 controller: 'ArticleCtrl as vm',
                 templateUrl: 'templates/blog/article-new.view.html',
                 url: '/blog/article/new'
+            })
+            .state('blog_image_new', {
+                controller: 'ImageCtrl as vm',
+                templateUrl: 'templates/blog/image-new.view.html',
+                url: '/blog/image/new'
             });
     }
 

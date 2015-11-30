@@ -61,13 +61,12 @@
         // -----------
 
         function newArticle() {
-            console.info("newArticle");
+            $log.info('newArticle');
             vm.post = postArticle;
         }
 
         function postArticle() {
-
-            $log.info(vm.article);
+            $log.info('postArticle:', vm.article);
 
             var params = {
                     user_id: 2,
@@ -87,12 +86,12 @@
 
         }
 
-        function postArticleError(reason) {
-            $log.error('postArticleError:', reason);
+        function postArticleError(error) {
+            $log.error('postArticleError:', error);
         }
 
-        function postArticleSuccess(response) {
-            $log.log('postArticleSuccess:', response);
+        function postArticleSuccess(resource, responseHeader) {
+            $log.log('postArticleSuccess:', resource, responseHeader);
             $state.go('blog');
         }
 
@@ -100,7 +99,7 @@
         // ------------
 
         function editArticle() {
-            console.info("editArticle", $state.params.article_id);
+            console.info('editArticle:', $state.params.article_id);
 
             vm.article = getArticle();
 
@@ -108,6 +107,7 @@
         }
 
         function getArticle() {
+            $log.info('getArticle');
             var params = {
                 user_id: 2,
                 article_id: $state.params.article_id
@@ -129,8 +129,7 @@
         }
 
         function putArticle() {
-
-            $log.info(vm.article);
+            $log.info('putArticle:', vm.article);
 
             var params = {
                     user_id: 2,
@@ -150,12 +149,12 @@
                 );
         }
 
-        function putArticleError(reason) {
-            $log.error('putArticleError:', reason);
+        function putArticleError(error) {
+            $log.error('putArticleError:', error);
         }
 
-        function putArticleSuccess(response) {
-            $log.log('putArticleSuccess:', response);
+        function putArticleSuccess(resource, responseHeader) {
+            $log.log('putArticleSuccess:', resource, responseHeader());
             $state.go('blog');
         }
 

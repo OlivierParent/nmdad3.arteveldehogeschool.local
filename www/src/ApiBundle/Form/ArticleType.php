@@ -30,13 +30,16 @@ class ArticleType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Article::class,
             'csrf_protection' => false,
+            'validation_groups' => [
+                'Default',
+            ],
         ]);
     }
 
     /**
      * JSON object name.
      *
-     * { article: { ... } }
+     * { article: { … } }
      *
      * @return string
      */

@@ -100,6 +100,24 @@
 ;(function () {
     'use strict';
 
+    angular.module('app')
+        .constant('config', {
+            api: {
+                protocol: 'http',
+                host    : 'www.nmdad3.arteveldehogeschool.local',
+                path    : '/app_dev.php/api/v1/'
+            }
+        });
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
     angular.module('app.blog')
         .controller('ArticleCtrl', ArticleCtrl);
 
@@ -155,13 +173,12 @@
         // -----------
 
         function newArticle() {
-            console.info("newArticle");
+            $log.info('newArticle');
             vm.post = postArticle;
         }
 
         function postArticle() {
-
-            $log.info(vm.article);
+            $log.info('postArticle:', vm.article);
 
             var params = {
                     user_id: 2,
@@ -181,12 +198,12 @@
 
         }
 
-        function postArticleError(reason) {
-            $log.error('postArticleError:', reason);
+        function postArticleError(error) {
+            $log.error('postArticleError:', error);
         }
 
-        function postArticleSuccess(response) {
-            $log.log('postArticleSuccess:', response);
+        function postArticleSuccess(resource, responseHeader) {
+            $log.log('postArticleSuccess:', resource, responseHeader);
             $state.go('blog');
         }
 
@@ -194,7 +211,7 @@
         // ------------
 
         function editArticle() {
-            console.info("editArticle", $state.params.article_id);
+            console.info('editArticle:', $state.params.article_id);
 
             vm.article = getArticle();
 
@@ -202,6 +219,7 @@
         }
 
         function getArticle() {
+            $log.info('getArticle');
             var params = {
                 user_id: 2,
                 article_id: $state.params.article_id
@@ -223,8 +241,7 @@
         }
 
         function putArticle() {
-
-            $log.info(vm.article);
+            $log.info('putArticle:', vm.article);
 
             var params = {
                     user_id: 2,
@@ -244,12 +261,12 @@
                 );
         }
 
-        function putArticleError(reason) {
-            $log.error('putArticleError:', reason);
+        function putArticleError(error) {
+            $log.error('putArticleError:', error);
         }
 
-        function putArticleSuccess(response) {
-            $log.log('putArticleSuccess:', response);
+        function putArticleSuccess(resource, responseHeader) {
+            $log.log('putArticleSuccess:', resource, responseHeader());
             $state.go('blog');
         }
 
@@ -294,6 +311,11 @@
                 controller: 'ArticleCtrl as vm',
                 templateUrl: 'templates/blog/article-new.view.html',
                 url: '/blog/article/new'
+            })
+            .state('blog_image_new', {
+                controller: 'ImageCtrl as vm',
+                templateUrl: 'templates/blog/image-new.view.html',
+                url: '/blog/image/new'
             });
     }
 
@@ -315,7 +337,8 @@
         '$log',
         '$state',
         // Custom
-        'UserArticleResourceFactory'
+        'UserArticleResourceFactory',
+        'UserImageResourceFactory'
     ];
 
     function BlogCtrl(
@@ -323,7 +346,8 @@
         $log,
         $state,
         // Custom
-        UserArticleResourceFactory // ResourceFactory
+        UserArticleResourceFactory,
+        UserImageResourceFactory
     ) {
         // ViewModel
         // =========
@@ -331,11 +355,15 @@
 
         vm.title = 'Blog Demo';
         vm.articles = getArticles();
+        vm.images = getImages();
 
         vm.delete = deleteArticle;
 
         // Functions
         // =========
+
+        // Articles
+        // --------
         function getArticles() {
             var params = {
                 user_id: 2
@@ -348,12 +376,12 @@
                 );
         }
 
-        function getArticlesError(reason) {
-            $log.error('getArticlesError:', reason);
+        function getArticlesError(error) {
+            $log.error('getArticlesError:', error);
         }
 
-        function getArticlesSuccess(response) {
-            $log.log('getArticlesSuccess:', response);
+        function getArticlesSuccess(resource, responseHeader) {
+            $log.log('getArticlesSuccess:', resource, responseHeader());
         }
 
         function deleteArticle(article) {
@@ -372,12 +400,168 @@
                 );
         }
 
-        function deleteArticleError(reason) {
-            $log.error('deleteArticleError:', reason);
+        function deleteArticleError(error) {
+            $log.error('deleteArticleError:', error);
         }
 
-        function deleteArticleSuccess(response) {
-            $log.log('deleteArticleSuccess:', response);
+        function deleteArticleSuccess(resource, responseHeader) {
+            $log.log('deleteArticleSuccess:', resource, responseHeader());
+        }
+
+        // Images
+        // ------
+        function getImages() {
+            var params = {
+                user_id: 2
+            };
+            return UserImageResourceFactory
+                .query(
+                    params,
+                    getImagesSuccess,
+                    getImagesError
+                );
+        }
+
+        function getImagesError(error) {
+            $log.error('getImagesError:', error);
+        }
+
+        function getImagesSuccess(resource, responseHeader) {
+            $log.log('getImagesSuccess:', resource, responseHeader());
+        }
+
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.blog')
+        .controller('ImageCtrl', ImageCtrl);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    ImageCtrl.$inject = [
+        // Angular
+        '$log',
+        '$state',
+        // ngCordova
+        '$cordovaFileTransfer',
+        // Custom
+        'UriFactory',
+        'UserImageResourceFactory'
+    ];
+
+    function ImageCtrl(
+        // Angular
+        $log,
+        $state,
+        // ngCordova
+        $cordovaFileTransfer,
+        // Custom
+        UriFactory,
+        UserImageResourceFactory
+    ) {
+
+        // ViewModel
+        // =========
+        var vm = this;
+
+        vm.title = 'New Image';
+        vm.form = {
+            image: {
+                title: 'Title'
+            }
+        };
+        vm.data = {
+            image: {}
+        };
+        vm.image = {};
+
+        console.log($state.current.name);
+        switch ($state.current.name) {
+            case 'blog_image_new':
+                newImage();
+                break;
+            default:
+                break;
+        }
+
+        // Functions
+        // =========
+
+        // New Article
+        // -----------
+
+        function newImage() {
+            $log.info('newImage');
+            vm.post = postImage;
+        }
+
+        function postImage() {
+            $log.info('postImage:', vm.image);
+
+            var params = {
+                    user_id: 2,
+                    format: null
+                },
+                postData = {
+                    image: vm.image
+                };
+
+            UserImageResourceFactory
+                .save(
+                    params,
+                    postData,
+                    postImageSuccess,
+                    postImageError
+                );
+
+        }
+
+        function postImageError(error) {
+            $log.error('postImageError:', error);
+        }
+
+        function postImageSuccess(resource, responseHeader) {
+            $log.log('postImageSuccess:', resource, responseHeader());
+            postImageFile(responseHeader().location);
+        }
+
+        function postImageFile(location) {
+            $log.info('postImageFile');
+
+            var server = location + '/file/';
+            var targetPath = "test.png";
+            var options = {};
+            var trustAllHosts = true;
+
+            $cordovaFileTransfer.upload(server, targetPath, options, trustAllHosts)
+                .then(
+                    postImageFileSuccess,
+                    postImageError,
+                    postImageFileProgress
+                );
+        }
+
+        function postImageFileError(error) {
+            $log.error('postImageFileError:', error);
+        }
+
+        function postImageFileSuccess(response) {
+            $log.log('postImageFileSuccess:', response);
+            //$state.go('blog');
+        }
+
+        function postImageFileProgress(progress) {
+            $timeout(function () {
+                vm.uploadProgress = (progress.loaded / progress.total) * 100;
+            })
         }
 
     }
@@ -398,14 +582,18 @@
     // Inject dependencies into constructor (needed when JS minification is applied).
     UserArticleResourceFactory.$inject = [
         // Angular
-        '$resource'
+        '$resource',
+        // Custom
+        'UriFactory'
     ];
 
     function UserArticleResourceFactory(
         // Angular
-        $resource
+        $resource,
+        // Custom
+        UriFactory
     ) {
-        var url = 'http://www.nmdad3.arteveldehogeschool.local/api/v1/users/:user_id/articles/:article_id.:format';
+        var url = UriFactory.getApi('users/:user_id/articles/:article_id.:format');
 
         var paramDefaults = {
             user_id   : '@id',
@@ -414,12 +602,52 @@
         };
 
         var actions = {
-            //'query' : {
-            //    method : 'GET',
-            //    isArray: false
-            //},
             'update': {
-                method:'PUT'
+                method: 'PUT'
+            }
+        };
+
+        return $resource(url, paramDefaults, actions);
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2014-2015 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.blog')
+        .factory('UserImageResourceFactory', UserImageResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    UserImageResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function UserImageResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('users/:user_id/images/:image_id.:format');
+
+        var paramDefaults = {
+            user_id : '@id',
+            image_id: '@id',
+            format  : 'json'
+        };
+
+        var actions = {
+            'file': {
+                method: 'POST'
             }
         };
 
@@ -473,8 +701,6 @@
     CameraCtrl.$inject = [
         // Angular
         '$log',
-        // Ionic
-        '$ionicPlatform',
         // ngCordova
         '$cordovaCamera'
     ];
@@ -482,8 +708,6 @@
     function CameraCtrl(
         // Angular
         $log,
-        // Ionic
-        $ionicPlatform,
         // ngCordova
         $cordovaCamera
     ) {
@@ -693,6 +917,46 @@
             $log.error(err);
             vm.support.error = true;
         }
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.services')
+        .factory('UriFactory', UriFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    UriFactory.$inject = [
+        // Angular
+        '$location',
+        // Custom
+        'config'
+    ];
+
+    function UriFactory(
+        // Angular
+        $location,
+        // Custom
+        config
+    ) {
+        function getApi(path) {
+            var protocol = config.api.protocol ? config.api.protocol : $location.protocol(),
+                host     = config.api.host     ? config.api.host     : $location.host(),
+                uri      = protocol + '://' + host + config.api.path + path;
+
+            return uri;
+        }
+
+        return {
+            getApi: getApi
+        };
     }
 
 })();

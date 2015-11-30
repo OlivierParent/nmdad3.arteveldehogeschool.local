@@ -2,8 +2,8 @@
 
 namespace ApiBundle\Controller;
 
-use ApiBundle\Form\ArticleType;
-use AppBundle\Entity\Article;
+use ApiBundle\Form\ImageType;
+use AppBundle\Entity\Image;
 use AppBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use FOS\RestBundle\Controller\FOSRestController as Controller;
@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ArticlesController.
+ * Class ImagesController.
  */
-class ArticlesController extends Controller
+class ImagesController extends Controller
 {
     /**
      * Test API options and requirements.
@@ -31,7 +31,7 @@ class ArticlesController extends Controller
      *     }
      * )
      */
-    public function optionsArticlesAction()
+    public function optionsImagesAction()
     {
         $response = new Response();
         $response->headers->set('Allow', 'OPTIONS, GET, POST, PUT');
@@ -40,7 +40,7 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Returns all articles.
+     * Returns all images.
      *
      * @param ParamFetcher $paramFetcher
      * @param $user_id
@@ -57,7 +57,7 @@ class ArticlesController extends Controller
      *     name = "sort",
      *     requirements = "id|title",
      *     default = "id",
-     *     description = "Order by Article id or Article title."
+     *     description = "Order by Image id or Image title."
      * )
      * @FOSRest\QueryParam(
      *     name = "order",
@@ -72,14 +72,14 @@ class ArticlesController extends Controller
      *     }
      * )
      */
-    public function getArticlesAction(ParamFetcher $paramFetcher, $user_id)
+    public function getImagesAction(ParamFetcher $paramFetcher, $user_id)
     {
         # HTTP method: GET
         # Host/port  : http://www.nmdad3.arteveldehogeschool.local
         #
-        # Path       : /app_dev.php/api/v1/users/1/articles.json
-        # Path       : /app_dev.php/api/v1/users/1/articles.xml
-        # Path       : /app_dev.php/api/v1/users/1/articles.xml?sort=title&amp;order=desc
+        # Path       : /app_dev.php/api/v1/users/1/images.json
+        # Path       : /app_dev.php/api/v1/users/1/images.xml
+        # Path       : /app_dev.php/api/v1/users/1/images.xml?sort=title&amp;order=desc
 
 //        dump([
 //            $paramFetcher->get('sort'),
@@ -98,27 +98,27 @@ class ArticlesController extends Controller
 
         $posts = $user->getPosts();
 
-        $articles = $posts
+        $images = $posts
             ->filter(
                 function ($post) {
-                    return $post instanceof Article;
+                    return $post instanceof Image;
                 }
             )->getValues();
 
-        return $articles;
+        return $images;
     }
 
     /**
-     * Returns an article.
+     * Returns an image.
      *
      * @param $user_id
-     * @param $article_id
+     * @param $image_id
      *
      * @return object
      *
      * @FOSRest\Get(
      *     requirements = {
-     *         "article_id" : "\d+",
+     *         "image_id" : "\d+",
      *         "_format" : "json|xml"
      *     }
      * )
@@ -131,32 +131,32 @@ class ArticlesController extends Controller
      *     }
      * )
      */
-    public function getArticleAction($user_id, $article_id)
+    public function getImageAction($user_id, $image_id)
     {
         # HTTP method: GET
         # Host/port  : http://www.nmdad3.arteveldehogeschool.local
         #
-        # Path       : /app_dev.php/api/v1/users/1/articles/1.json
+        # Path       : /app_dev.php/api/v1/users/1/images/1.json
 
         $em = $this->getDoctrine()->getManager();
 
-        $article = $em
-            ->getRepository('AppBundle:Article')
-            ->find($article_id);
+        $image = $em
+            ->getRepository('AppBundle:Image')
+            ->find($image_id);
 
-        if (!$article instanceof Article) {
+        if (!$image instanceof Image) {
             throw new NotFoundHttpException('Not found');
         }
 
-        if ($article->getUser()->getId() === (int) $user_id) {
-            return $article;
+        if ($image->getUser()->getId() === (int) $user_id) {
+            return $image;
         }
     }
 
     /**
-     * Post a new article.
+     * Post a new image.
      *
-     * { "article": { "title": "Lorem", "body": "ipsum" } }
+     * { "image": { "title": "Lorem" } }
      *
      * @param Request $request
      * @param $user_id
@@ -165,19 +165,19 @@ class ArticlesController extends Controller
      *
      * @FOSRest\View()
      * @FOSRest\Post(
-     *     "/users/{user_id}/articles/",
+     *     "/users/{user_id}/images/",
      *     requirements = {
      *         "user_id" : "\d+"
      *     }
      * )
      * @Nelmio\ApiDoc(
-     *     input = ArticleType::class,
+     *     input = ApiBundle\Form\ImageType::class,
      *     statusCodes = {
      *         Response::HTTP_CREATED : "Created"
      *     }
      * )
      */
-    public function postArticleAction(Request $request, $user_id)
+    public function postImageAction(Request $request, $user_id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -188,21 +188,58 @@ class ArticlesController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $article = new Article();
-        $article->setUser($user);
+        $image = new Image();
+        $image->setUser($user);
 
         $logger = $this->get('logger');
         $logger->info($request);
 
-        return $this->processArticleForm($request, $article);
+        return $this->processImageForm($request, $image);
     }
 
     /**
-     * Update an article.
+     * @param Request $request
+     * @param $user_id
+     *
+     * @FOSRest\View()
+     * @FOSRest\Post(
+     *     "/users/{user_id}/images/{article_id}/file/",
+     *     requirements = {
+     *         "user_id"   : "\d+",
+     *         "article_id": "\d+"
+     *     }
+     * )
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function postImageFileAction(Request $request, $user_id, $article_id)
+    {
+        $image = new Image();
+        $image->setUser($this->getUser());
+        $form = $this->createCreateForm($image);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $uploadDirectory = 'uploads';
+            $file = $image->getFile();
+            $fileName = sha1_file($file->getRealPath()).'.'.$file->guessExtension();
+            $fileLocator = realpath($this->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web').DIRECTORY_SEPARATOR.$uploadDirectory;
+            $file->move($fileLocator, $fileName);
+            $image->setUri('/'.$uploadDirectory.'/'.$fileName);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+    }
+
+    /**
+     * Update an image.
      *
      * @param Request $request
      * @param $user_id
-     * @param $article_id
+     * @param $image_id
      *
      * @return Response
      *
@@ -210,45 +247,45 @@ class ArticlesController extends Controller
      * @FOSRest\Put(
      *     requirements = {
      *         "user_id" : "\d+",
-     *         "article_id" : "\d+",
+     *         "image_id": "\d+",
      *         "_format" : "json|xml"
      *     }
      * )
      * @Nelmio\ApiDoc(
-     *     input = ArticleType::class,
+     *     input = AppBundle\Form\ImageType::class,
      *     statusCodes = {
      *         Response::HTTP_NO_CONTENT: "No Content"
      *     }
      * )
      */
-    public function putArticleAction(Request $request, $user_id, $article_id)
+    public function putImageAction(Request $request, $user_id, $image_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $article = $em
-            ->getRepository('AppBundle:Article')
-            ->find($article_id);
+        $image = $em
+            ->getRepository('AppBundle:Image')
+            ->find($image_id);
 
-        if (!$article instanceof Article) {
+        if (!$image instanceof Image) {
             throw new NotFoundHttpException();
         }
 
-        if ($article->getUser()->getId() === (int) $user_id) {
-            return $this->processArticleForm($request, $article);
+        if ($image->getUser()->getId() === (int) $user_id) {
+            return $this->processImageForm($request, $image);
         }
     }
 
     /**
-     * Delete an article.
+     * Delete an image.
      *
      * @param $user_id
-     * @param $article_id
+     * @param $image_id
      *
      * @throws NotFoundHttpException
      * @FOSRest\View(statusCode = 204)
      * @FOSRest\Delete(
      *     requirements = {
      *         "user_id" : "\d+",
-     *         "article_id" : "\d+",
+     *         "image_id" : "\d+",
      *         "_format" : "json|xml"
      *     },
      *     defaults = {"_format": "json"}
@@ -260,20 +297,20 @@ class ArticlesController extends Controller
      *     }
      * )
      */
-    public function deleteArticleAction($user_id, $article_id)
+    public function deleteImageAction($user_id, $image_id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $article = $em
-            ->getRepository('AppBundle:Article')
-            ->find($article_id);
+        $image = $em
+            ->getRepository('AppBundle:Image')
+            ->find($image_id);
 
-        if (!$article instanceof Article) {
+        if (!$image instanceof Image) {
             throw new NotFoundHttpException();
         }
 
-        if ($article->getUser()->getId() === (int) $user_id) {
-            $em->remove($article);
+        if ($image->getUser()->getId() === (int) $user_id) {
+            $em->remove($image);
             $em->flush();
         }
     }
@@ -282,23 +319,23 @@ class ArticlesController extends Controller
     // -------------------
 
     /**
-     * Process ArticleType Form.
+     * Process ImageType Form.
      *
      * @param Request $request
-     * @param Article $article
+     * @param Image $image
      *
      * @return View|Response
      */
-    private function processArticleForm(Request $request, Article $article)
+    private function processImageForm(Request $request, Image $image)
     {
-        $form = $this->createForm(new ArticleType(), $article, ['method' => $request->getMethod()]);
+        $form = $this->createForm(new ImageType(), $image, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $statusCode = is_null($article->getId()) ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
+            $statusCode = is_null($image->getId()) ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($article); // Manage entity Article for persistence.
+            $em->persist($image); // Manage entity Image for persistence.
             $em->flush();           // Persist to database.
 
             $response = new Response();
@@ -306,9 +343,9 @@ class ArticlesController extends Controller
 
             // Redirect to the URI of the resource.
             $response->headers->set('Location',
-                $this->generateUrl('api_v1_get_user_article', [
-                    'user_id' => $article->getUser()->getId(),
-                    'article_id' => $article->getId(),
+                $this->generateUrl('api_v1_get_user_image', [
+                    'user_id' => $image->getUser()->getId(),
+                    'image_id' => $image->getId(),
                 ], /* absolute path = */true)
             );
 

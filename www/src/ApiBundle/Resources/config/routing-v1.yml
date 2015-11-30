@@ -2,7 +2,12 @@ users:
     resource: ApiBundle\Controller\UsersController
     type:     rest
 
-articles:
+users_articles:
     parent:   users
     resource: ApiBundle\Controller\ArticlesController
+    type:     rest
+
+users_images:
+    parent:   users
+    resource: ApiBundle\Controller\ImagesController
     type:     rest

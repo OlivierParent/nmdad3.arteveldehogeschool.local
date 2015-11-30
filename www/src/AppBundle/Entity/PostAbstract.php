@@ -44,8 +44,8 @@ abstract class PostAbstract
      *
      * @Assert\NotBlank()
      * @Assert\Length(
-     *     min =   3,
-     *     max = 255
+     *     min=  3,
+     *     max=255
      * )
      * @ORM\Column(name="title", type="string", length=255)
      * @JMS\Expose()
