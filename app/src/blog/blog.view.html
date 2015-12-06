@@ -16,7 +16,7 @@
         <ion-list>
             <ion-item ng-repeat="image in vm.images" data-id="{{ image.id }}">
                 {{ image.title }}
-                <p><img ng-src="{{ image.uri }}" alt="{{ image.title }}"></p>
+                <p><img ng-src="{{ image.uri }}" alt="{{ image.title }}" style="max-width: 100%;"></p>
             </ion-item>
         </ion-list>
         <div class="padding">

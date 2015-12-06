@@ -454,6 +454,7 @@
         // Angular
         '$log',
         '$state',
+        '$timeout',
         // ngCordova
         '$cordovaFileTransfer',
         // Custom
@@ -465,6 +466,7 @@
         // Angular
         $log,
         $state,
+        $timeout,
         // ngCordova
         $cordovaFileTransfer,
         // Custom
@@ -525,7 +527,6 @@
                     postImageSuccess,
                     postImageError
                 );
-
         }
 
         function postImageError(error) {
@@ -540,9 +541,16 @@
         function postImageFile(location) {
             $log.info('postImageFile');
 
+            var jpeg = true;
             var server = location + '/file/';
-            var targetPath = "test.png";
-            var options = {};
+            var fileName = jpeg ? 'test.jpg' : 'test.png';
+            var targetPath = cordova.file.applicationDirectory + "www/" + fileName ;
+            var options = {
+                fileKey: 'imageFile',
+                fileName: fileName,
+                httpMethod: 'POST',
+                mimeType: jpeg ? 'image/jpg' : 'image/png'
+            };
             var trustAllHosts = true;
 
             $cordovaFileTransfer.upload(server, targetPath, options, trustAllHosts)
@@ -559,13 +567,13 @@
 
         function postImageFileSuccess(response) {
             $log.log('postImageFileSuccess:', response);
-            //$state.go('blog');
+            $state.go('blog');
         }
 
         function postImageFileProgress(progress) {
             $timeout(function () {
                 vm.uploadProgress = (progress.loaded / progress.total) * 100;
-            })
+            });
         }
 
     }

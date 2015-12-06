@@ -22,18 +22,18 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-camera",
-    "cordova-plugin-file-transfer",
     {
       "locator": "https://github.com/katzer/cordova-plugin-local-notifications",
       "id": "de.appplant.cordova.plugin.local-notification"
     },
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "ios",
     {
       "platform": "android",
-      "locator": "browser"
+      "locator": "firefoxos"
     }
   ]
 }

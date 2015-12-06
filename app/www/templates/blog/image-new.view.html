@@ -7,7 +7,8 @@
             </label>
         </div>
         <div class="padding">
-            <button class="button button-block button-positive" ng-click="vm.post()">Post</button>
+            <button class="button button-block button-positive" ng-click="vm.post()" ng-hide="vm.uploadProgress">Post</button>
+            <progress max="100" value="{{ vm.uploadProgress }}" ng-show="vm.uploadProgress"></progress>
         </div>
     </ion-content>
 </ion-view>

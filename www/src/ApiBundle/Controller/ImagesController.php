@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\FOSRestController as Controller;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation as Nelmio;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -200,38 +201,38 @@ class ImagesController extends Controller
     /**
      * @param Request $request
      * @param $user_id
+     * @param $image_id
      *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @FOSRest\View()
      * @FOSRest\Post(
-     *     "/users/{user_id}/images/{article_id}/file/",
+     *     "/users/{user_id}/images/{image_id}/file/",
      *     requirements = {
      *         "user_id"   : "\d+",
      *         "article_id": "\d+"
      *     }
      * )
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function postImageFileAction(Request $request, $user_id, $article_id)
+    public function postImageFileAction(Request $request, $user_id, $image_id)
     {
-        $image = new Image();
-        $image->setUser($this->getUser());
-        $form = $this->createCreateForm($image);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $image = $em->getRepository('AppBundle:Image')->find($image_id);
 
-        if ($form->isValid()) {
-            $uploadDirectory = 'uploads';
-            $file = $image->getFile();
-            $fileName = sha1_file($file->getRealPath()).'.'.$file->guessExtension();
-            $fileLocator = realpath($this->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web').DIRECTORY_SEPARATOR.$uploadDirectory;
-            $file->move($fileLocator, $fileName);
-            $image->setUri('/'.$uploadDirectory.'/'.$fileName);
+        $data = $_FILES['imageFile'];
+        $file = new UploadedFile($data['tmp_name'], $data['name'], $data['type'], $data['size'], $data['error']);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($image);
-            $em->flush();
+        $uploadDirectory = 'uploads';
+        $fileName = sha1_file($file->getRealPath()).'.'.$file->guessExtension();
+        $fileLocator = realpath($this->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web').DIRECTORY_SEPARATOR.$uploadDirectory;
+        $file->move($fileLocator, $fileName);
+        $image->setUri($request->getScheme() . '://'. $request->getHttpHost() . '/'.$uploadDirectory.'/'.$fileName);
 
-            return $this->redirect($this->generateUrl('homepage'));
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($image);
+        $em->flush();
+
+        $response = new Response();
+        return $response->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
