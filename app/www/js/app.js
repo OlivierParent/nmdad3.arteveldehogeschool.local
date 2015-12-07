@@ -66,6 +66,7 @@
     Config.$inject = [
         // Angular
         '$compileProvider',
+        //'$http',
         '$httpProvider',
         '$urlRouterProvider'
     ];
@@ -73,6 +74,7 @@
     function Config(
         // Angular
         $compileProvider,
+        //$http,
         $httpProvider,
         $urlRouterProvider
     ) {
@@ -82,9 +84,11 @@
             .imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|app):|data:image\/)/)
         ;
 
-        // Enable CORS (Cross-Origin Resource Sharing)
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        // Basic Auth
+        var username = 'nmdad3_gebruiker',
+            password = 'nmdad3_wachtwoord',
+            credentials = window.btoa(username + ':' + password);
+        $httpProvider.defaults.headers.common['Authorization'] = 'Basic ' + credentials;
 
         // Routes
         $urlRouterProvider.otherwise('/');
@@ -100,10 +104,12 @@
 ;(function () {
     'use strict';
 
+    var secure = false;
+
     angular.module('app')
         .constant('config', {
             api: {
-                protocol: 'http',
+                protocol: secure ? 'https' : 'http',
                 host    : 'www.nmdad3.arteveldehogeschool.local',
                 path    : '/app_dev.php/api/v1/'
             }
@@ -842,6 +848,46 @@
 ;(function () {
     'use strict';
 
+    angular.module('app.services')
+        .factory('UriFactory', UriFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    UriFactory.$inject = [
+        // Angular
+        '$location',
+        // Custom
+        'config'
+    ];
+
+    function UriFactory(
+        // Angular
+        $location,
+        // Custom
+        config
+    ) {
+        function getApi(path) {
+            var protocol = config.api.protocol ? config.api.protocol : $location.protocol(),
+                host     = config.api.host     ? config.api.host     : $location.host(),
+                uri      = protocol + '://' + host + config.api.path + path;
+
+            return uri;
+        }
+
+        return {
+            getApi: getApi
+        };
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
     angular.module('app.database')
         .config(Routes);
 
@@ -929,46 +975,6 @@
             $log.error(err);
             vm.support.error = true;
         }
-    }
-
-})();
-
-/**
- * @author    Olivier Parent
- * @copyright Copyright © 2015-2016 Artevelde University College Ghent
- * @license   Apache License, Version 2.0
- */
-;(function () {
-    'use strict';
-
-    angular.module('app.services')
-        .factory('UriFactory', UriFactory);
-
-    // Inject dependencies into constructor (needed when JS minification is applied).
-    UriFactory.$inject = [
-        // Angular
-        '$location',
-        // Custom
-        'config'
-    ];
-
-    function UriFactory(
-        // Angular
-        $location,
-        // Custom
-        config
-    ) {
-        function getApi(path) {
-            var protocol = config.api.protocol ? config.api.protocol : $location.protocol(),
-                host     = config.api.host     ? config.api.host     : $location.host(),
-                uri      = protocol + '://' + host + config.api.path + path;
-
-            return uri;
-        }
-
-        return {
-            getApi: getApi
-        };
     }
 
 })();

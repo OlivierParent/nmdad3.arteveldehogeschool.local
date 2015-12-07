@@ -13,6 +13,7 @@
     Config.$inject = [
         // Angular
         '$compileProvider',
+        //'$http',
         '$httpProvider',
         '$urlRouterProvider'
     ];
@@ -20,6 +21,7 @@
     function Config(
         // Angular
         $compileProvider,
+        //$http,
         $httpProvider,
         $urlRouterProvider
     ) {
@@ -29,9 +31,11 @@
             .imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|app):|data:image\/)/)
         ;
 
-        // Enable CORS (Cross-Origin Resource Sharing)
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        // Basic Auth
+        var username = 'nmdad3_gebruiker',
+            password = 'nmdad3_wachtwoord',
+            credentials = window.btoa(username + ':' + password);
+        $httpProvider.defaults.headers.common['Authorization'] = 'Basic ' + credentials;
 
         // Routes
         $urlRouterProvider.otherwise('/');

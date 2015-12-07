@@ -16,11 +16,17 @@ security:
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        api:
+            pattern: ^/api/
+            anonymous: ~
+            http_basic: ~
+
+        backoffice:
             anonymous: ~
             form_login:
                 login_path: security_login
@@ -32,3 +38,11 @@ security:
             logout:
                 path:   security_logout
                 target: security_login
+
+    access_control:
+        -  { path:  /api/doc             , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        -  { path:  /security/register   , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        -  { path:  /security/login      , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        -  { path:  /security/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        -  { path: ^/(.+)                , roles: IS_AUTHENTICATED_FULLY       }
+

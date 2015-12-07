@@ -6,10 +6,12 @@
 ;(function () {
     'use strict';
 
+    var secure = false;
+
     angular.module('app')
         .constant('config', {
             api: {
-                protocol: 'http',
+                protocol: secure ? 'https' : 'http',
                 host    : 'www.nmdad3.arteveldehogeschool.local',
                 path    : '/app_dev.php/api/v1/'
             }
