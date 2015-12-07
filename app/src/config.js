@@ -13,7 +13,6 @@
     Config.$inject = [
         // Angular
         '$compileProvider',
-        //'$http',
         '$httpProvider',
         '$urlRouterProvider'
     ];
@@ -21,7 +20,6 @@
     function Config(
         // Angular
         $compileProvider,
-        //$http,
         $httpProvider,
         $urlRouterProvider
     ) {
