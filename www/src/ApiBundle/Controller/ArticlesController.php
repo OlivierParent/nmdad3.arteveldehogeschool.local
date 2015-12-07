@@ -318,5 +318,4 @@ class ArticlesController extends Controller
 
         return View::create($form, Response::HTTP_BAD_REQUEST);
     }
-
 }

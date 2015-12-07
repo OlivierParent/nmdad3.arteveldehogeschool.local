@@ -34,9 +34,9 @@ class UsersController extends Controller
         return $response;
     }
 
-
     /**
      * @param $user_id
+     *
      * @return mixed
      *
      * @Nelmio\ApiDoc(
@@ -82,7 +82,7 @@ class UsersController extends Controller
 
         return $user;
     }
-    
+
     /**
      * Delete a User.
      *
@@ -115,7 +115,7 @@ class UsersController extends Controller
         if (!$user instanceof User) {
             throw new NotFoundHttpException();
         }
-        
+
         $em->remove($user);
         $em->flush();
     }

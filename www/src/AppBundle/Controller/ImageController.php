@@ -62,7 +62,7 @@ class ImageController extends Controller
             $fileName = sha1_file($file->getRealPath()).'.'.$file->guessExtension();
             $fileLocator = realpath($this->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web').DIRECTORY_SEPARATOR.$uploadDirectory;
             $file->move($fileLocator, $fileName);
-            $image->setUri('/'.$uploadDirectory.'/'.$fileName);
+            $image->setUri($request->getScheme().'://'.$request->getHttpHost().'/'.$uploadDirectory.'/'.$fileName);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($image);

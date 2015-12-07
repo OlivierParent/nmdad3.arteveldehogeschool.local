@@ -22,10 +22,9 @@ class NewType extends AbstractType
             ->add('categories', 'entity', [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'expanded' =>  false,
+                'expanded' => false,
                 'multiple' => true,
             ]);
-        ;
     }
 
     /**
@@ -37,7 +36,7 @@ class NewType extends AbstractType
             'data_class' => Image::class,
             'validation_groups' => [
                 'Default',
-                'Backoffice'
+                'Backoffice',
             ],
         ]);
     }

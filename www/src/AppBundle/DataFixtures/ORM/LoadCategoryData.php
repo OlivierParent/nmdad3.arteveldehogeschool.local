@@ -3,13 +3,10 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Category;
-use AppBundle\Traits\ContainerTrait;
-use AppBundle\Traits\PasswordTrait;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory as Faker;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Class LoadCategoryData.

@@ -22,10 +22,9 @@ class NewType extends AbstractType
             ->add('categories', 'entity', [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'expanded' =>  false,
+                'expanded' => false,
                 'multiple' => true,
             ]);
-        ;
     }
 
     /**
