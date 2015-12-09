@@ -116,7 +116,7 @@
             $cordovaFileTransfer.upload(server, targetPath, options, trustAllHosts)
                 .then(
                     postImageFileSuccess,
-                    postImageError,
+                    postImageFileError,
                     postImageFileProgress
                 );
         }
