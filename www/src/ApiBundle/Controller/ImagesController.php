@@ -351,7 +351,7 @@ class ImagesController extends Controller
             );
 
             $response->setContent(json_encode([
-                'image' => ['id' => $image->getId() ]
+                'image' => ['id' => $image->getId()],
             ]));
 
             return $response;
