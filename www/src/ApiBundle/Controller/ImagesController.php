@@ -208,8 +208,7 @@ class ImagesController extends Controller
      * @FOSRest\Post(
      *     "/users/{user_id}/images/{image_id}/file/",
      *     requirements = {
-     *         "user_id"   : "\d+",
-     *         "article_id": "\d+"
+     *         "user_id"   : "\d+"
      *     }
      * )
      */
@@ -350,6 +349,10 @@ class ImagesController extends Controller
                     'image_id' => $image->getId(),
                 ], /* absolute path = */true)
             );
+
+            $response->setContent(json_encode([
+                'image' => ['id' => $image->getId() ]
+            ]));
 
             return $response;
         }

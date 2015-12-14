@@ -312,7 +312,9 @@ class ArticlesController extends Controller
                     'article_id' => $article->getId(),
                 ], /* absolute path = */true)
             );
-
+            $response->setContent(json_encode([
+                    'article' => ['id' => $article->getId() ]
+                ]));
             return $response;
         }
 

@@ -27,7 +27,8 @@
       "id": "de.appplant.cordova.plugin.local-notification"
     },
     "cordova-sqlite-storage",
-    "cordova-plugin-file-transfer"
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "ios",

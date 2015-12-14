@@ -21,12 +21,12 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api:
+        api_area:
             pattern: ^/api/
             anonymous: ~
             http_basic: ~
 
-        backoffice:
+        backoffice_area:
             anonymous: ~
             form_login:
                 login_path: security_login
