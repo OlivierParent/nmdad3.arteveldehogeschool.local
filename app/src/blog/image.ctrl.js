@@ -18,7 +18,6 @@
         // ngCordova
         '$cordovaFileTransfer',
         // Custom
-        'UriFactory',
         'UserImageResourceFactory'
     ];
 
@@ -30,7 +29,6 @@
         // ngCordova
         $cordovaFileTransfer,
         // Custom
-        UriFactory,
         UserImageResourceFactory
     ) {
 
@@ -49,7 +47,7 @@
         };
         vm.image = {};
 
-        console.log($state.current.name);
+        $log.log($state.current.name);
         switch ($state.current.name) {
             case 'blog_image_new':
                 newImage();
@@ -101,17 +99,17 @@
         function postImageFile(location) {
             $log.info('postImageFile');
 
-            var jpeg = true;
-            var server = location + '/file/';
-            var fileName = jpeg ? 'test.jpg' : 'test.png';
-            var targetPath = cordova.file.applicationDirectory + "www/" + fileName ;
-            var options = {
-                fileKey: 'imageFile',
-                fileName: fileName,
-                httpMethod: 'POST',
-                mimeType: jpeg ? 'image/jpg' : 'image/png'
-            };
-            var trustAllHosts = true;
+            var jpeg = true,
+                server = location + '/file/',
+                fileName = jpeg ? 'test.jpg' : 'test.png',
+                targetPath = cordova.file.applicationDirectory + "www/" + fileName,
+                options = {
+                    fileKey: 'imageFile',
+                    fileName: fileName,
+                    httpMethod: 'POST',
+                    mimeType: jpeg ? 'image/jpg' : 'image/png'
+                },
+                trustAllHosts = true;
 
             $cordovaFileTransfer.upload(server, targetPath, options, trustAllHosts)
                 .then(

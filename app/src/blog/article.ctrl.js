@@ -23,7 +23,7 @@
         $log,
         $state,
         // Custom
-        UserArticleResourceFactory // ResourceFactory
+        UserArticleResourceFactory
     ) {
 
         // ViewModel
@@ -140,7 +140,7 @@
                     article: {
                         id: $state.params.article_id,
                         title: vm.article.title,
-                        body: vm.article.body,
+                        body: vm.article.body
                     }
                 };
 
