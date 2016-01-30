@@ -122,6 +122,97 @@
 ;(function () {
     'use strict';
 
+    angular.module('app.camera')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('camera', {
+                controller: 'CameraCtrl as vm',
+                templateUrl: 'templates/camera/camera.view.html',
+                url: '/camera'
+            });
+    }
+
+})();
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.camera')
+        .controller('CameraCtrl', CameraCtrl);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    CameraCtrl.$inject = [
+        // Angular
+        '$log',
+        // ngCordova
+        '$cordovaCamera'
+    ];
+
+    function CameraCtrl(
+        // Angular
+        $log,
+        // ngCordova
+        $cordovaCamera
+    ) {
+        // ViewModel
+        // =========
+        var vm = this;
+
+        vm.getPhoto = getPhoto;
+        vm.lastPhoto = null;
+        vm.title = 'Camera Demo';
+
+        // Functions
+        // =========
+        function getPhoto() {
+            var cameraOptions = {
+                quality: 75,
+                targetWidth: 320,
+                targetHeight: 320,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera
+                .getPicture(cameraOptions)
+                .then(getPhotoSuccess, getPhotoError);
+        }
+        
+        function getPhotoSuccess(imageUri) {
+            $log.log(imageUri);
+            vm.lastPhoto = imageUri;
+        }
+
+        function getPhotoError(error) {
+            $log.error(error);
+            vm.lastPhoto = 'error';
+        }
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
     angular.module('app.blog')
         .controller('ArticleCtrl', ArticleCtrl);
 
@@ -678,97 +769,6 @@
 ;(function () {
     'use strict';
 
-    angular.module('app.camera')
-        .config(Routes);
-
-    // Inject dependencies into constructor (needed when JS minification is applied).
-    Routes.$inject = [
-        // Angular
-        '$stateProvider'
-    ];
-
-    function Routes(
-        // Angular
-        $stateProvider
-    ) {
-        $stateProvider
-            .state('camera', {
-                controller: 'CameraCtrl as vm',
-                templateUrl: 'templates/camera/camera.view.html',
-                url: '/camera'
-            });
-    }
-
-})();
-/**
- * @author    Olivier Parent
- * @copyright Copyright © 2015-2016 Artevelde University College Ghent
- * @license   Apache License, Version 2.0
- */
-;(function () {
-    'use strict';
-
-    angular.module('app.camera')
-        .controller('CameraCtrl', CameraCtrl);
-
-    // Inject dependencies into constructor (needed when JS minification is applied).
-    CameraCtrl.$inject = [
-        // Angular
-        '$log',
-        // ngCordova
-        '$cordovaCamera'
-    ];
-
-    function CameraCtrl(
-        // Angular
-        $log,
-        // ngCordova
-        $cordovaCamera
-    ) {
-        // ViewModel
-        // =========
-        var vm = this;
-
-        vm.getPhoto = getPhoto;
-        vm.lastPhoto = null;
-        vm.title = 'Camera Demo';
-
-        // Functions
-        // =========
-        function getPhoto() {
-            var cameraOptions = {
-                quality: 75,
-                targetWidth: 320,
-                targetHeight: 320,
-                saveToPhotoAlbum: false
-            };
-
-            $cordovaCamera
-                .getPicture(cameraOptions)
-                .then(getPhotoSuccess, getPhotoError);
-        }
-        
-        function getPhotoSuccess(imageUri) {
-            $log.log(imageUri);
-            vm.lastPhoto = imageUri;
-        }
-
-        function getPhotoError(error) {
-            $log.error(error);
-            vm.lastPhoto = 'error';
-        }
-    }
-
-})();
-
-/**
- * @author    Olivier Parent
- * @copyright Copyright © 2015-2016 Artevelde University College Ghent
- * @license   Apache License, Version 2.0
- */
-;(function () {
-    'use strict';
-
     angular.module('app.common')
         .config(Routes);
 
@@ -832,46 +832,6 @@
                 'label': 'Database Demo'
             }
         ];
-    }
-
-})();
-
-/**
- * @author    Olivier Parent
- * @copyright Copyright © 2015-2016 Artevelde University College Ghent
- * @license   Apache License, Version 2.0
- */
-;(function () {
-    'use strict';
-
-    angular.module('app.services')
-        .factory('UriFactory', UriFactory);
-
-    // Inject dependencies into constructor (needed when JS minification is applied).
-    UriFactory.$inject = [
-        // Angular
-        '$location',
-        // Custom
-        'config'
-    ];
-
-    function UriFactory(
-        // Angular
-        $location,
-        // Custom
-        config
-    ) {
-        function getApi(path) {
-            var protocol = config.api.protocol ? config.api.protocol : $location.protocol(),
-                host     = config.api.host     ? config.api.host     : $location.host(),
-                uri      = protocol + '://' + host + config.api.path + path;
-
-            return uri;
-        }
-
-        return {
-            getApi: getApi
-        };
     }
 
 })();
@@ -971,6 +931,46 @@
             $log.error(err);
             vm.support.error = true;
         }
+    }
+
+})();
+
+/**
+ * @author    Olivier Parent
+ * @copyright Copyright © 2015-2016 Artevelde University College Ghent
+ * @license   Apache License, Version 2.0
+ */
+;(function () {
+    'use strict';
+
+    angular.module('app.services')
+        .factory('UriFactory', UriFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    UriFactory.$inject = [
+        // Angular
+        '$location',
+        // Custom
+        'config'
+    ];
+
+    function UriFactory(
+        // Angular
+        $location,
+        // Custom
+        config
+    ) {
+        function getApi(path) {
+            var protocol = config.api.protocol ? config.api.protocol : $location.protocol(),
+                host     = config.api.host     ? config.api.host     : $location.host(),
+                uri      = protocol + '://' + host + config.api.path + path;
+
+            return uri;
+        }
+
+        return {
+            getApi: getApi
+        };
     }
 
 })();
