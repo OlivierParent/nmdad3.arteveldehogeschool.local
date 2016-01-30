@@ -12,7 +12,7 @@
         .constant('config', {
             api: {
                 protocol: secure ? 'https' : 'http',
-                host    : 'www.nmdad3.arteveldehogeschool.local',
+                host    : 'www.nmdad3.local',
                 path    : '/app_dev.php/api/v1/'
             }
         });

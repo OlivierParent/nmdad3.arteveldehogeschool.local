@@ -4,7 +4,7 @@
 parameters:
     database_host:              127.0.0.1
     database_port:              ~
-    database_name:              nmdad3_arteveldehogeschool_be
+    database_name:              nmdad3_local
     database_user:              nmdad3_db_user
     database_password:          nmdad3_db_password
     database_admin_user:        homestead
