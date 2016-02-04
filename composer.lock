@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "gdmgent/artestead",
-            "version": "v3.0.1-p2",
+            "version": "v3.0.1-p4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gdmgent/artestead.git",
-                "reference": "9d4b0c0d85c742842a40b0b75e162039bec92270"
+                "reference": "c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gdmgent/artestead/zipball/9d4b0c0d85c742842a40b0b75e162039bec92270",
-                "reference": "9d4b0c0d85c742842a40b0b75e162039bec92270",
+                "url": "https://api.github.com/repos/gdmgent/artestead/zipball/c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f",
+                "reference": "c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f",
                 "shasum": ""
             },
             "require": {
@@ -35,6 +35,7 @@
                     "GdmGent\\Artestead\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -44,24 +45,20 @@
                 }
             ],
             "description": "Artestead is a fork of Laravel Homestead for use at Artevelde University College Ghent.",
-            "support": {
-                "source": "https://github.com/gdmgent/artestead/tree/v3.0.1-p2",
-                "issues": "https://github.com/gdmgent/artestead/issues"
-            },
-            "time": "2016-01-30 21:42:13"
+            "time": "2016-02-04 09:50:56"
         },
         {
             "name": "symfony/console",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "ebcdc507829df915f4ca23067bd59ee4ef61f6c3"
+                "reference": "5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/ebcdc507829df915f4ca23067bd59ee4ef61f6c3",
-                "reference": "ebcdc507829df915f4ca23067bd59ee4ef61f6c3",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0",
+                "reference": "5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +105,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-12-22 10:39:06"
+            "time": "2016-02-02 13:44:19"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -171,16 +168,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3"
+                "reference": "dfecef47506179db2501430e732adbf3793099c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
-                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
+                "url": "https://api.github.com/repos/symfony/process/zipball/dfecef47506179db2501430e732adbf3793099c8",
+                "reference": "dfecef47506179db2501430e732adbf3793099c8",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +213,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2015-12-23 11:04:02"
+            "time": "2016-02-02 13:44:19"
         }
     ],
     "packages-dev": [],
