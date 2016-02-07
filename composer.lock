@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "gdmgent/artestead",
-            "version": "v3.0.1-p4",
+            "version": "v3.0.1-p7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gdmgent/artestead.git",
-                "reference": "c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f"
+                "reference": "1c37ce5a8891b11b0a218f711c3f8dd004cd9695"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gdmgent/artestead/zipball/c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f",
-                "reference": "c80b07bfb3f1858d29dd833923d78ef0ecf3bc4f",
+                "url": "https://api.github.com/repos/gdmgent/artestead/zipball/1c37ce5a8891b11b0a218f711c3f8dd004cd9695",
+                "reference": "1c37ce5a8891b11b0a218f711c3f8dd004cd9695",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 }
             ],
             "description": "Artestead is a fork of Laravel Homestead for use at Artevelde University College Ghent.",
-            "time": "2016-02-04 09:50:56"
+            "time": "2016-02-07 21:09:37"
         },
         {
             "name": "symfony/console",

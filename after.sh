@@ -11,7 +11,5 @@ do
     sudo sed --in-place=.bak 's/date.timezone = UTC/date.timezone = Europe\/Brussels/' /etc/php/7.0/"$s"/php.ini
 done
 service php7.0-fpm restart
-# Install Tree
-sudo apt-get install tree
 # Fix for Windows host
 dos2unix /home/vagrant/.bash_aliases

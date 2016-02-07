@@ -26,9 +26,9 @@ alias cmp1='cd ~/cmp1.local/'
 alias cmp2='cd ~/cmp2.local/'
 alias cmp3='cd ~/cmp3.local/'
 alias demo='cd ~/demo.local/'
+alias mma='cd ~/mma.local/'
 alias nmdad2='cd ~/nmdad2.local/'
 alias nmdad3='cd ~/nmdad3.local/'
-alias mmtoep='cd ~/mmtoep.local/'
 
 export PATH=/home/vagrant/.config/composer/vendor/bin/:$PATH
 
