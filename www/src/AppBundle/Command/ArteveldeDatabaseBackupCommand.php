@@ -32,20 +32,21 @@ class ArteveldeDatabaseBackupCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
 
+        // Get variables from `app/config/parameters.yml`
         $dbName = $container->getParameter('database_name');
-        $dbUser = $container->getParameter('database_user');
+        $dbUsername = $container->getParameter('database_user');
         $dbPassword = $container->getParameter('database_password');
         $dbDumpPath = $container->getParameter('database_dump_path');
 
-        // Creates folder(s)
+        // Create folder(s)
         $command = "mkdir -p ${dbDumpPath}";
         exec($command);
 
-        // Create database dump
-        $command = "MYSQL_PWD=${dbPassword} mysqldump --user=${dbUser} --databases ${dbName} > ${dbDumpPath}/latest.sql";
+        // Create SQL database dump
+        $command = "MYSQL_PWD=${dbPassword} mysqldump --user=${dbUsername} --databases ${dbName} > ${dbDumpPath}/latest.sql";
         exec($command);
 
-        // Gzips and timestamps latest database dump
+        // Gzip and timestamp created SQL database dump
         $command = "gzip -cr ${dbDumpPath}/latest.sql > ${dbDumpPath}/\$(date +\"%Y-%m-%d_%H%M%S\").sql.gz";
         exec($command);
 

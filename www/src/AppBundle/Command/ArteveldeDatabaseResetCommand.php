@@ -72,5 +72,7 @@ class ArteveldeDatabaseResetCommand extends ContainerAwareCommand
                 ->find($commandName)
                 ->run($commandInput, $output);
         }
+
+        $output->writeln("Database `${dbName}` reset!");
     }
 }

@@ -32,16 +32,18 @@ class ArteveldeDatabaseUserCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
 
-        // Gets parameters from `app/config/parameters.yml`.
-        $dbAdminUser = $container->getParameter('database_admin_user');
-        $dbAdminPassword = $container->getParameter('database_admin_password');
+        // Get variables from `app/config/parameters.yml`
         $dbName = $container->getParameter('database_name');
-        $dbUser = $container->getParameter('database_user');
+        $dbUsername = $container->getParameter('database_user');
         $dbPassword = $container->getParameter('database_password');
+        $dbAdminUsername = $container->getParameter('database_admin_user');
+        $dbAdminPassword = $container->getParameter('database_admin_password');
 
-        // Adds database user with privileges on (nonexistent) database.
-        $sql = "GRANT ALL PRIVILEGES ON ${dbName}.* TO '${dbUser}' IDENTIFIED BY '${dbPassword}'";
-        $command = sprintf('MYSQL_PWD=%s mysql --user=%s --execute="%s"', $dbAdminPassword, $dbAdminUser, $sql);
+        // Add database user with all privileges on (nonexistent) database
+        $sql = "GRANT ALL PRIVILEGES ON ${dbName}.* TO '${dbUsername}' IDENTIFIED BY '${dbPassword}'";
+        $command = sprintf('MYSQL_PWD=%s mysql --user=%s --execute="%s"', $dbAdminPassword, $dbAdminUsername, $sql);
         exec($command);
+
+        $output->writeln("Database user `${dbUsername}` created!");
     }
 }

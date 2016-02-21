@@ -32,12 +32,15 @@ class ArteveldeDatabaseRestoreCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
 
+        // Get variables from `app/config/parameters.yml`
         $dbName = $container->getParameter('database_name');
-        $dbUser = $container->getParameter('database_user');
+        $dbUsername = $container->getParameter('database_user');
         $dbPassword = $container->getParameter('database_password');
         $dbDumpPath = $container->getParameter('database_dump_path');
 
-        $command = "MYSQL_PWD=${dbPassword} mysqldump --user=${dbUser} ${dbName} < ${dbDumpPath}/latest.sql";
+
+
+        $command = "MYSQL_PWD=${dbPassword} mysqldump --user=${dbUsername} ${dbName} < ${dbDumpPath}/latest.sql";
         exec($command);
 
         $output->writeln("Backup for database `${dbName}` restored!");

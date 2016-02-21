@@ -66,5 +66,7 @@ class ArteveldeDatabaseInitCommand extends ContainerAwareCommand
                 ->find($commandName)
                 ->run($commandInput, $output);
         }
+
+        $output->writeln("Database `${dbName}` initialized!");
     }
 }
